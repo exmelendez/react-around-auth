@@ -1,0 +1,17 @@
+.footer {
+  grid-area: footer;
+  font-size: 18px;
+  line-height: 22px;
+  color: #545454;
+
+  padding: 66px 0 0 0;
+  margin: 0;
+}
+
+@media screen and (max-width: 600px) {
+  .footer {
+    font-size: 14px;
+    line-height: 17px;
+    padding-top: 48px;
+  }
+}

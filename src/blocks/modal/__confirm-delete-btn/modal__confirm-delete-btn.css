@@ -1,0 +1,28 @@
+.modal__confirm-delete-btn {
+
+  width: 92%;
+  height: 50.15px;
+  margin: 30px auto 0 auto;
+
+  background-color: #000;
+  font-size: 18px;
+  line-height: 22px;
+  color: #fff;
+  cursor: pointer;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  transition: opacity 0.3s ease-out;
+}
+
+.modal__confirm-delete-btn:hover {
+  opacity: 0.8;
+}
+
+@media screen and (max-width: 530px) {
+  .modal__confirm-delete-btn {
+    width: 242px;
+  }
+}

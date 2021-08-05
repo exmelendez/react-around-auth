@@ -1,0 +1,22 @@
+@import url('./__delete-btn/photos__delete-btn.css');
+@import url('./__delete-btn/_visible/photos__delete-btn_visible.css');
+@import url('./__grid/photos__grid.css');
+@import url('./__image/photos__image.css');
+@import url('./__item/photos__item.css');
+@import url('./__item-info/photos__item-info.css');
+@import url('./__likes/photos__likes.css');
+@import url('./__likes-container/photos__likes-container.css');
+@import url('./__love-btn/photos__love-btn.css');
+@import url('./__love-btn/_liked/photos__love-btn_liked.css');
+@import url('./__title/photos__title.css');
+
+.photos {
+  margin: 0;
+  padding: 51px 0 0 0;
+}
+
+@media screen and (max-width: 600px) {
+  .photos {
+    padding-top: 36px;
+  }
+}

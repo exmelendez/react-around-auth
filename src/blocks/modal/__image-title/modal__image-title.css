@@ -1,0 +1,8 @@
+.modal__image-title {
+  color: #fff;
+  margin: 0;
+  padding: 0;
+  position: absolute;
+  bottom: -30px;
+  left: 0;
+}

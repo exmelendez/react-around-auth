@@ -1,0 +1,23 @@
+.photos__love-btn {
+  display:inline-block;
+  width: 20.76px;
+  height: 18.13px;
+
+  background-image: url('../../../images/trans_fill_heart.svg');
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+
+  margin: 0 0 3px 0;
+  padding: 0;
+
+  transition: opacity 0.3s ease-out;
+}
+
+.photos__love-btn:hover {
+  opacity: 0.5;
+}

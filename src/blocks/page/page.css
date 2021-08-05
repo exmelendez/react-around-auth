@@ -1,0 +1,31 @@
+.page {
+  background-color: #000;
+  max-width: 882px;
+  width: 100%;
+  font-family: 'Inter', 'Arial', sans-serif;
+
+  margin: 0 auto;
+  padding: 45px 0 60px 0;
+
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: repeat(3, auto);
+  grid-template-areas:
+  "header"
+  "content"
+  "footer";
+}
+
+@media screen and (max-width: 900px) {
+  .page {
+    max-width: 582px;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .page {
+    padding-top: 28px;
+    padding-bottom: 36px;
+    max-width: 282px;
+  }
+}

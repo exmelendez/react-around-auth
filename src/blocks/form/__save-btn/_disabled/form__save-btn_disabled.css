@@ -1,0 +1,5 @@
+/* imported direct to index.css */
+.form__save-btn_disabled {
+  background-color: #E5E5E5;
+  cursor: default;
+}
