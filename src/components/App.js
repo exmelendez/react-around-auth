@@ -1,4 +1,5 @@
 import React, {useState, useEffect} from  'react';
+import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom';
 import api from '../utils/api';
 import { CurrentUserContext } from '../contexts/CurrentUserContext';
 import Header from './Header.js';
@@ -8,6 +9,8 @@ import ImagePopup from './ImagePopup';
 import EditProfilePopup from './EditProfilePopup';
 import EditAvatarPopup from './EditAvatarPopup';
 import AddPlacePopup from './AddPlacePopup';
+import Test from './Test';
+// import Test2 from './Test2';
 
 function App() {
   const [currentUser, setCurrentUser] = useState({ name: "", about: "", avatar: "" });
@@ -17,6 +20,7 @@ function App() {
   const [isImagePopupOpen, setImagePopupOpen] = useState(false);
   const [selectedCard, setSelectedCard] = useState(null);
   const [cards, setCards] = useState([]);
+  const loggedIn = true;
 
   function closeAllPopups(e) {
     if (e.target.classList.contains('modal__close-btn') || e.target.classList.contains('modal_is-open') || e.key === "Escape") {
@@ -137,10 +141,17 @@ function App() {
   }, []);
 
   return (
-    <>
+    <BrowserRouter>
       <CurrentUserContext.Provider value={currentUser}>
         <Header />
-        <Main onEditProfile={handleEditProfileClick} onAddPlace={handleEditAddPlaceClick} onEditAvatar={handleEditAvatarClick} onCardClick={handleCardClick} cards={cards} onCardLike={handleCardLike} onCardDelete={handleCardDelete}/>
+        <Switch>
+          <Route exact path="/">
+            { loggedIn ? <Main onEditProfile={handleEditProfileClick} onAddPlace={handleEditAddPlaceClick} onEditAvatar={handleEditAvatarClick} onCardClick={handleCardClick} cards={cards} onCardLike={handleCardLike} onCardDelete={handleCardDelete}/> : <Redirect to="/login" /> }
+          </Route>
+          <Route path="/login">
+            <Test />
+          </Route>
+        </Switch>
         <Footer />
 
         <EditProfilePopup isOpen={isEditProfilePopupOpen} onClose={closeAllPopups} onUpdateUser={handleUpdateUser} />
@@ -152,7 +163,7 @@ function App() {
         }
 
       </CurrentUserContext.Provider>
-    </>
+    </BrowserRouter>
   );
 }
 

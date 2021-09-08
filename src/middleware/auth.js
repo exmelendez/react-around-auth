@@ -1,28 +1,49 @@
-const express = require('express');
-const mongoose = require('mongoose');
-const signupRouter = require('../routes/signup');
-const signinRouter = require('./signin');
+import e from 'express';
+import React, {useState, useEffect} from 'react';
+import { Link, withRouter } from 'react-router-dom';
+import * as duckAuth from '../duckAuth.js';
 
-const { PORT = 3000 } = process.env;
-const app = express();
+function Auth() {
+  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [message, setMessage] = useState('');
 
-mongoose.connect('mongodb://localhost:27017/testdb', {
-  useNewUrlParser: true,
-  useCreateIndex: true,
-  useFindAndModify: false,
-  useUnifiedTopology: true,
-});
+  const handleSubmit = () => {
+    e.preventDefault();
+    if(password !== confirmPassword) {
+      setMessage("Something went wrong");
+    }
+  };
 
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+  return (
+    <div className="register">
+      <p className="register__welcome">
+        Welcome Msg
+      </p>
+      <p className="register__error">
+        {message}
+      </p>
 
-/*
-app.use((req, res, next) => {
-  req.user = { _id: '60b7d9a051232d4260b1ee1f' };
-  next();
-});
-*/
+      <form className="register__form" onSubmit={this.handleSubmit}>
+        <label for="username">Name:</label>
+        <input id="username" name="username" type="text" value={username} onChange={(e) => setUsername(e.target.value)} />
+        <label for="email">Email:</label>
+        <input id="email" name="email" type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
+        <label for="password">Password:</label>
+        <input id="password" name="password" type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
+        <label for="confirmPassword">Confirm password:</label>
+        <input id="confirmPassword" name="confirmPassword" type="password" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} />
+        <div className="register__button-container">
+          <button className="register__link" type="submit">Register</button>
+        </div>
+      </form>
 
-app.use('/signup', signupRouter);
-app.use('/signin', signinRouter);
-app.listen(PORT, () => console.log(`listening on port ${PORT} . . .`));
+      <div className="register__signin">
+        <p>Signin</p>
+        <Link className="register__login-link" to="login">Login</Link>
+      </div>
+    </div>
+  );
+}
