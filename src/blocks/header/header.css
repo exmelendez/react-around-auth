@@ -1,5 +1,10 @@
 @import url('./__logo/header__logo.css');
 @import url('./__logo-link/header__logo-link.css');
+@import url('./__content/header__content.css');
+@import url('./__text-container/header__text-container.css');
+@import url('./__text/header__text.css');
+@import url('./__user-email/header__user-email.css');
+@import url('./__text-link/header__text-link.css');
 
 .header {
   width: 100%;
@@ -9,6 +14,10 @@
 
   margin: 0;
   padding: 0 0 41px 0;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 @media screen and (max-width: 900px) {

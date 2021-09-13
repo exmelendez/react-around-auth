@@ -9,8 +9,8 @@ import ImagePopup from './ImagePopup';
 import EditProfilePopup from './EditProfilePopup';
 import EditAvatarPopup from './EditAvatarPopup';
 import AddPlacePopup from './AddPlacePopup';
-import Test from './Test';
-// import Test2 from './Test2';
+import Signin from './Signin';
+import Signup from './Signup';
 
 function App() {
   const [currentUser, setCurrentUser] = useState({ name: "", about: "", avatar: "" });
@@ -101,7 +101,8 @@ function App() {
       setCurrentUser({
         name: currentUser.name,
         about: currentUser.about,
-        avatar: response.avatar
+        avatar: response.avatar,
+        email: currentUser.email
       });
     })
     .catch((err) => console.log(err))
@@ -128,7 +129,8 @@ function App() {
   useEffect(() => {
     api.getUserInfo()
     .then(user => {
-        setCurrentUser(user);
+      user.email = 'email@mail.com';
+      setCurrentUser(user);
     })
     .catch((err) => console.log(err));
 
@@ -143,13 +145,16 @@ function App() {
   return (
     <BrowserRouter>
       <CurrentUserContext.Provider value={currentUser}>
-        <Header />
+        <Header loggedIn={loggedIn} />
         <Switch>
           <Route exact path="/">
             { loggedIn ? <Main onEditProfile={handleEditProfileClick} onAddPlace={handleEditAddPlaceClick} onEditAvatar={handleEditAvatarClick} onCardClick={handleCardClick} cards={cards} onCardLike={handleCardLike} onCardDelete={handleCardDelete}/> : <Redirect to="/login" /> }
           </Route>
-          <Route path="/login">
-            <Test />
+          <Route path="/signin">
+            <Signin />
+          </Route>
+          <Route path="/signup">
+            <Signup />
           </Route>
         </Switch>
         <Footer />
