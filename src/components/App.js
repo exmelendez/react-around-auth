@@ -148,13 +148,13 @@ function App() {
         <Header loggedIn={loggedIn} />
         <Switch>
           <Route exact path="/">
-            { loggedIn ? <Main onEditProfile={handleEditProfileClick} onAddPlace={handleEditAddPlaceClick} onEditAvatar={handleEditAvatarClick} onCardClick={handleCardClick} cards={cards} onCardLike={handleCardLike} onCardDelete={handleCardDelete}/> : <Redirect to="/login" /> }
+            { loggedIn ? <Main onEditProfile={handleEditProfileClick} onAddPlace={handleEditAddPlaceClick} onEditAvatar={handleEditAvatarClick} onCardClick={handleCardClick} cards={cards} onCardLike={handleCardLike} onCardDelete={handleCardDelete}/> : <Redirect to="/signin" /> }
           </Route>
           <Route path="/signin">
-            <Signin />
+          { loggedIn ? <Redirect to="/" /> : <Signin /> }
           </Route>
           <Route path="/signup">
-            <Signup />
+          { loggedIn ? <Redirect to="/" /> : <Signup /> }
           </Route>
         </Switch>
         <Footer />
