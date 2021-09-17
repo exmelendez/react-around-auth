@@ -11,6 +11,7 @@ import EditAvatarPopup from './EditAvatarPopup';
 import AddPlacePopup from './AddPlacePopup';
 import Signin from './Signin';
 import Signup from './Signup';
+import ProtectedRoute from './ProtectedRoute';
 
 function App() {
   const [currentUser, setCurrentUser] = useState({ name: "", about: "", avatar: "" });
@@ -20,7 +21,9 @@ function App() {
   const [isImagePopupOpen, setImagePopupOpen] = useState(false);
   const [selectedCard, setSelectedCard] = useState(null);
   const [cards, setCards] = useState([]);
-  const loggedIn = true;
+  // const [isLoginForm, setIsLoginForm] = useState(true);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  console.log('isLoggedIn:', isLoggedIn);
 
   function closeAllPopups(e) {
     if (e.target.classList.contains('modal__close-btn') || e.target.classList.contains('modal_is-open') || e.key === "Escape") {
@@ -126,11 +129,18 @@ function App() {
     });
   }
 
+  function toggleLogin(e) {
+    e.preventDefault();
+    setIsLoggedIn(!isLoggedIn);
+    // console.log('login btn clicked');
+  }
+
   useEffect(() => {
     api.getUserInfo()
     .then(user => {
       user.email = 'email@mail.com';
       setCurrentUser(user);
+      // setIsLoginForm(false);
     })
     .catch((err) => console.log(err));
 
@@ -145,17 +155,17 @@ function App() {
   return (
     <BrowserRouter>
       <CurrentUserContext.Provider value={currentUser}>
-        <Header loggedIn={loggedIn} />
+        <Header loggedIn={isLoggedIn} />
         <Switch>
-          <Route exact path="/">
-            { loggedIn ? <Main onEditProfile={handleEditProfileClick} onAddPlace={handleEditAddPlaceClick} onEditAvatar={handleEditAvatarClick} onCardClick={handleCardClick} cards={cards} onCardLike={handleCardLike} onCardDelete={handleCardDelete}/> : <Redirect to="/signin" /> }
-          </Route>
           <Route path="/signin">
-          { loggedIn ? <Redirect to="/" /> : <Signin /> }
+            { isLoggedIn ? <Redirect to="/" /> : <Signin onLogin={toggleLogin} /> }
           </Route>
           <Route path="/signup">
-          { loggedIn ? <Redirect to="/" /> : <Signup /> }
+           <Signup />
           </Route>
+          <ProtectedRoute path="/" loggedIn={isLoggedIn}>
+            <Main onEditProfile={handleEditProfileClick} onAddPlace={handleEditAddPlaceClick} onEditAvatar={handleEditAvatarClick} onCardClick={handleCardClick} cards={cards} onCardLike={handleCardLike} onCardDelete={handleCardDelete}/>
+          </ProtectedRoute>
         </Switch>
         <Footer />
 

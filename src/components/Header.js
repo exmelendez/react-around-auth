@@ -4,7 +4,6 @@ import logo from '../images/logo.svg';
 
 function Header(props) {
   const currentUser = useContext(CurrentUserContext);
-  console.log('header JS', currentUser);
 
   return (
     <header className="header">
