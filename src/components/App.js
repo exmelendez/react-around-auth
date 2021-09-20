@@ -12,6 +12,7 @@ import AddPlacePopup from './AddPlacePopup';
 import Signin from './Signin';
 import Signup from './Signup';
 import ProtectedRoute from './ProtectedRoute';
+// import * as auth from '../middleware/auth';
 
 function App() {
   const [currentUser, setCurrentUser] = useState({ name: "", about: "", avatar: "" });
@@ -22,8 +23,8 @@ function App() {
   const [selectedCard, setSelectedCard] = useState(null);
   const [cards, setCards] = useState([]);
   // const [isLoginForm, setIsLoginForm] = useState(true);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  console.log('isLoggedIn:', isLoggedIn);
+  const [isLoggedIn, setIsLoggedIn] = useState(true);
+  // console.log('isLoggedIn:', isLoggedIn);
 
   function closeAllPopups(e) {
     if (e.target.classList.contains('modal__close-btn') || e.target.classList.contains('modal_is-open') || e.key === "Escape") {
@@ -95,6 +96,27 @@ function App() {
     if (e.key === 'Escape') {
       closeAllPopups(e);
     }
+  }
+
+  function handleSignIn() {
+    if (localStorage.getItem('jwt')) {
+
+    }
+  }
+
+  function handleSignUp(password, email) {
+
+    /*
+    console.log('signup btn clicked, App.js line 107');
+    console.log('password - App.js - line 108:', password);
+    console.log('email - App.js - line 109:', email);
+    auth.register(password, email)
+    .then()
+    */
+  }
+
+  function handleSignOut() {
+    localStorage.removeItem('jwt');
   }
 
   function handleUpdateAvatar(avatar) {
