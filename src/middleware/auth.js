@@ -10,9 +10,16 @@ export const register = (password, email) => {
     body: JSON.stringify({password, email})
   })
   .then((response) => {
+    //a status code of 201 means successfully created
+    //a status code of 400 means error/already exists
+    // console.log('response from auth:', response);
+    // console.log('response status in auth:',response.status);
     return response.json();
   })
   .then((res) => {
+
+    console.log('res in auth 2nd then:', res);
+    // console.log('res error msg in auth:', res.error);
     return res;
   })
   .catch((err) => console.log(err));

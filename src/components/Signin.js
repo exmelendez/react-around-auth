@@ -1,34 +1,44 @@
 import { useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
+import * as auth from "../middleware/auth";
 
 function Signin({onLogin}) {
   const history = useHistory();
-  const [state, setState] = useState({message: '', username: '', password: ''});
-  const [message, setMessage] = useState('');
   const [password, setPassword] = useState('');
-  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
+
+  function handleEmailChange(e) {
+    setEmail(e.target.value);
+  }
+
+  function handlePasswordChange(e) {
+    setPassword(e.target.value);
+  }
 
   function handleSubmit(e) {
     e.preventDefault();
-    console.log('did submit');
+    console.log('submission email:', email);
+    console.log('submission password:', password);
+    setEmail('');
+    setPassword('');
   }
 
   return (
-      <div onSubmit={handleSubmit} className="login">
+      <div className="login">
         <p className="login__welcome">
           This app contains highly sensitive information. Please sign in or
           register to access CryptoDucks.
         </p>
-        <p className="login__error">{message}</p>
-        <form className="login__form">
+        <p className="login__error">text here</p>
+        <form onSubmit={handleSubmit} className="login__form">
           <label htmlFor="username">Username:</label>
           <input
             id="username"
             required
             name="username"
             type="text"
-            value={username}
-            onChange={(evt) => setUsername(evt.target.value)}
+            value={email}
+            onChange={handleEmailChange}
           />
           <label htmlFor="password">Password:</label>
           <input
@@ -37,7 +47,7 @@ function Signin({onLogin}) {
             name="password"
             type="password"
             value={password}
-            onChange={(evt) => setPassword(evt.target.value)}
+            onChange={handlePasswordChange}
           />
           <div className="login__button-container">
             <button type="submit" className="login__link">

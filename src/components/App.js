@@ -23,7 +23,7 @@ function App() {
   const [selectedCard, setSelectedCard] = useState(null);
   const [cards, setCards] = useState([]);
   // const [isLoginForm, setIsLoginForm] = useState(true);
-  const [isLoggedIn, setIsLoggedIn] = useState(true);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   // console.log('isLoggedIn:', isLoggedIn);
 
   function closeAllPopups(e) {

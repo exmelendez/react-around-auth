@@ -19,11 +19,11 @@ function Signup() {
     e.preventDefault();
     auth.register(password, email)
     .then((res) => {
-      if(res) {
-        console.log('submission register response:', res);
-        history.push('/signin');
+      if(res.error) {
+        console.log('did not successfully register for the following reason:', res.error);
       } else {
-        console.log('something went wrong');
+        history.push('/signin');
+        console.log('successful registration');
       }
     });
   }
