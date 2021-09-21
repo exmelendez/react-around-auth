@@ -17,54 +17,25 @@ function Signin({onLogin}) {
 
   function handleSubmit(e) {
     e.preventDefault();
-    // console.log('submission email:', email);
-    // console.log('submission password:', password);
-    auth.authorize(email, password);
-    // auth.authorize(password, email);
-    // setEmail('');
-    // setPassword('');
+    auth.authorize(password, email)
+    .then((res) => {
+      if(res.error) {
+        console.log('error in authentication signin component');
+      } else {
+        console.log('sucess in authentication signin component:', res);
+        setEmail('');
+        setPassword('');
+      }
+    });
   }
 
   return (
-      <div className="login">
-        <p className="login__welcome">
-          This app contains highly sensitive information. Please sign in or
-          register to access CryptoDucks.
-        </p>
-        <p className="login__error">text here</p>
-        <form onSubmit={handleSubmit} className="login__form">
-          <label htmlFor="username">Username:</label>
-          <input
-            id="username"
-            required
-            name="username"
-            type="text"
-            value={email}
-            onChange={handleEmailChange}
-          />
-          <label htmlFor="password">Password:</label>
-          <input
-            id="password"
-            required
-            name="password"
-            type="password"
-            value={password}
-            onChange={handlePasswordChange}
-          />
-          <div className="login__button-container">
-            <button type="submit" className="login__link">
-              Log in
-            </button>
-          </div>
-        </form>
-  
-        <div className="login__signup">
-          <p>Not a member yet?</p>
-          <Link to="/register" className="signup__link">
-            Sign up here
-          </Link>
-        </div>
-      </div>
+    <form onSubmit={handleSubmit}>
+      <h2 style={{color: "red"}}>Sign In</h2>
+      <input required id="signin-email" type="email" name="email" placeholder="Email" value={email} onChange={handleEmailChange}/>
+      <input required id="signin-password" type="password" name="password" placeholder="Password" value={password} onChange={handlePasswordChange} />
+      <button type="submit" value="submit">Sign in</button>
+    </form>
   );
 }
 

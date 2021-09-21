@@ -180,7 +180,7 @@ function App() {
         <Header loggedIn={isLoggedIn} />
         <Switch>
           <Route path="/signin">
-            { isLoggedIn ? <Redirect to="/" /> : <Signin onLogin={toggleLogin} /> }
+            <Signin />
           </Route>
           <Route path="/signup">
            <Signup />
