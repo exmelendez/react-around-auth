@@ -25,8 +25,11 @@ export const register = (password, email) => {
   .catch((err) => console.log(err));
 };
 
+// eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MTQ5MmVhZTY3YzBjODAwMTMxZWE0YjciLCJpYXQiOjE2MzIxODYyMDB9.kAaTEDy9I84hIXvD0UOKHU96jazQ25FToK5Fh9AJjps
+// eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MTQ5MmVhZTY3YzBjODAwMTMxZWE0YjciLCJpYXQiOjE2MzIxODYzMzh9.zQqmPJTFQUNs--aFUuOvPk89j8gxWIF5RwiCzQjyt30"
 export const authorize = (identifier, password) => {
-  return fetch(`${BASE_URL}/auth/local`, {
+  console.log('entered auth:', identifier);
+  return fetch(`${BASE_URL}/signin`, {
     method: 'POST',
     headers: {
       Accept: 'application/json',
@@ -34,12 +37,20 @@ export const authorize = (identifier, password) => {
     },
     body: JSON.stringify({ identifier, password }),
   })
-    .then((response) => response.json())
+    .then((response) => {
+      console.log('response:', response);
+      return response.json();
+    })
     .then((data) => {
+      console.log('data:', data);
+
+      /*
       if (data.jwt) {
+        console.log('data.jwt', data.jwt);
         localStorage.setItem('jwt', data.jwt);
         return data;
       }
+      */
     })
     .catch((err) => console.log(err));
 };

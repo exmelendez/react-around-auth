@@ -17,10 +17,12 @@ function Signin({onLogin}) {
 
   function handleSubmit(e) {
     e.preventDefault();
-    console.log('submission email:', email);
-    console.log('submission password:', password);
-    setEmail('');
-    setPassword('');
+    // console.log('submission email:', email);
+    // console.log('submission password:', password);
+    auth.authorize(email, password);
+    // auth.authorize(password, email);
+    // setEmail('');
+    // setPassword('');
   }
 
   return (
