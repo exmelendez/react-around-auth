@@ -22,7 +22,7 @@ function Signin({onLogin}) {
       if(res.error) {
         console.log('error in authentication signin component');
       } else {
-        console.log('sucess in authentication signin component:', res);
+        console.log('success in authentication signin component:', res);
         setEmail('');
         setPassword('');
       }

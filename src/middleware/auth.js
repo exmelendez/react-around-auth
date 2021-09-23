@@ -9,13 +9,7 @@ export const register = (password, email) => {
     },
     body: JSON.stringify({password, email})
   })
-  .then((response) => {
-    //a status code of 201 means successfully created
-    //a status code of 400 means error/already exists
-    // console.log('response from auth:', response);
-    // console.log('response status in auth:',response.status);
-    return response.json();
-  })
+  .then((response) => response.json())
   .then((res) => res)
   .catch((err) => console.log(err));
 };
@@ -29,10 +23,13 @@ export const authorize = (password, email) => {
     },
     body: JSON.stringify({email, password})
   })
-  .then((response) => {
-    return response.json();
+  .then((response) => response.json())
+  .then((data) => {
+    if(data.token){
+      localStorage.setItem('jwt', data.token);
+      return data;
+    }
   })
-  .then((data) => data)
   .catch((err) => console.log(err));
 };
 
