@@ -1,11 +1,14 @@
-import { useState } from 'react';
-import { Link, useHistory } from 'react-router-dom';
+import { useState, useContext } from 'react';
+import { useHistory, useLocation } from 'react-router-dom';
+import { CurrentUserContext } from '../contexts/CurrentUserContext';
 import * as auth from "../middleware/auth";
 
-function Signin({onLogin}) {
+function Signin({tokenSet}) {
   const history = useHistory();
   const [password, setPassword] = useState('');
   const [email, setEmail] = useState('');
+  const { setCurrentUser } = useContext(CurrentUserContext);
+  // const location = useLocation();
 
   function handleEmailChange(e) {
     setEmail(e.target.value);
@@ -17,16 +20,24 @@ function Signin({onLogin}) {
 
   function handleSubmit(e) {
     e.preventDefault();
+    if(!email || !password) {
+      return;
+    }
+
     auth.authorize(password, email)
-    .then((res) => {
-      if(res.error) {
-        console.log('error in authentication signin component');
-      } else {
-        console.log('success in authentication signin component:', res);
+    .then((data) => {
+      if(data.token) {
         setEmail('');
         setPassword('');
-      }
-    });
+        setCurrentUser(prev => ({
+          ...prev,
+          isLoggedIn: true
+        }));
+        tokenSet(data.token);
+        history.push('/');
+      } 
+    })
+    .catch((err) => console.log(err));
   }
 
   return (

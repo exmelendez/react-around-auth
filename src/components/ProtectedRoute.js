@@ -1,10 +1,15 @@
-import React from 'react';
-import { Route, Redirect } from 'react-router-dom';
+import React, { useContext } from 'react';
+import { Route, Redirect, useLocation } from 'react-router-dom';
+import { CurrentUserContext } from '../contexts/CurrentUserContext';
 
-function ProtectedRoute({ children, loggedIn, ...props }) {
+function ProtectedRoute({ children, ...props }) {
+  const { currentUser } = useContext(CurrentUserContext);
+  const location = useLocation();
+  // console.log('location protected route:', location);
+
   return (
     <Route {...props}>
-      {loggedIn ? children : <Redirect to={"/signin"} />}
+      {currentUser.isLoggedIn ? children : <Redirect to={"/signin"} />}
     </Route>
   );
 }

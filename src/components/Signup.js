@@ -1,11 +1,13 @@
 import { useState } from "react";
-import { useHistory } from "react-router-dom";
+import { useHistory, useLocation } from "react-router-dom";
 import * as auth from "../middleware/auth";
 
 function Signup() {
   const history = useHistory();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const location = useLocation();
+  console.log('location Signup:', location);
 
   function handleEmailChange(e) {
     setEmail(e.target.value);
