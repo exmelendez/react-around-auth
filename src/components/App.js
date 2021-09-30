@@ -147,7 +147,7 @@ function App() {
 
       auth.getContent(token)
       .then((res) => {
-        console.log('response object res - App line 149:', res);
+        console.log('response object res - App line 150:', res);
         if(res.message) {
           console.log('the data does not exist')
         } else {
@@ -168,6 +168,8 @@ function App() {
               avatar: user.avatar,
               _id: user._id
             }));
+            history.push('/');
+
           })
           .catch((err) => console.log(err));
   
@@ -177,7 +179,6 @@ function App() {
           })
           .catch((err) => console.log(err));
 
-          history.push('/');
         }
         
       })
