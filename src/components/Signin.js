@@ -41,12 +41,12 @@ function Signin({tokenSet}) {
   }
 
   return (
-    <form onSubmit={handleSubmit}>
-      <h2 style={{color: "red"}}>Sign In</h2>
-      <input required id="signin-email" type="email" name="email" placeholder="Email" value={email} onChange={handleEmailChange}/>
-      <input required id="signin-password" type="password" name="password" placeholder="Password" value={password} onChange={handlePasswordChange} />
-      <button type="submit" value="submit">Sign in</button>
-    </form>
+      <form onSubmit={handleSubmit}>
+        <h2 style={{color: "red"}}>Sign In</h2>
+        <input required id="signin-email" type="email" name="email" placeholder="Email" value={email} onChange={handleEmailChange}/>
+        <input required id="signin-password" type="password" name="password" placeholder="Password" value={password} onChange={handlePasswordChange} />
+        <button type="submit" value="submit">Sign in</button>
+      </form>
   );
 }
 

@@ -12,10 +12,12 @@ import AddPlacePopup from './AddPlacePopup';
 import Signin from './Signin';
 import Signup from './Signup';
 import ProtectedRoute from './ProtectedRoute';
+import UnprotectedRoute from './UnprotectedRoute';
 import Test from './Test';
 import * as auth from '../middleware/auth';
 
 function App() {
+  const jwt = localStorage.getItem('jwt');
   const [currentUser, setCurrentUser] = useState({ name: "", about: "", avatar: "", email: "", _id: "", isLoggedIn: false });
   const [isEditProfilePopupOpen, setEditProfilePopupOpen] = useState(false);
   const [isAddPlacePopupOpen, setAddPlacePopupOpen] = useState(false);
@@ -139,26 +141,43 @@ function App() {
     });
   }
 
-  useEffect(() => {
-    console.log('useEffect ran - App - line 143');
+  function tokenCheck() {
     if(localStorage.getItem('jwt')) {
-      setToken(localStorage.getItem('jwt'));
-      console.log('token:', token);
+      const jwt = localStorage.getItem('jwt');
+      console.log('tokenCheck - token found:', jwt);
 
-      auth.getContent(token)
+      auth.getContent(jwt)
       .then((res) => {
-        console.log('response object res - App line 150:', res);
+        console.log('response object - App line 150:', res);
         if(res.message) {
-          console.log('the data does not exist')
+          console.log('the data does not exist - tokenCheck')
+          return false;
         } else {
-          console.log('the data exists');
-
           setCurrentUser(prev => ({
             ...prev,
-            email: res.data.email,
-            isLoggedIn: true
+            email: res.data.email
           }));
-  
+
+          setToken(jwt);
+          return true;
+        }
+      })
+      .catch((err) => {
+        console.log(err)
+        return false;
+      });
+
+    } else {
+      console.log('tokenCheck function no token found');
+      return false;
+    }
+  }
+
+  useEffect(() => {
+    if (jwt) {
+      auth.getContent(jwt).then((res) => {
+        if (res) {
+
           api.getUserInfo()
           .then(user => {
             setCurrentUser(prev => ({
@@ -166,33 +185,53 @@ function App() {
               name: user.name,
               about: user.about,
               avatar: user.avatar,
-              _id: user._id
+              _id: user._id,
+              email: res.data.email,
+              isLoggedIn: true
             }));
-            history.push('/');
-
           })
           .catch((err) => console.log(err));
-  
+          
           api.getCardList()
           .then(cardData => {
             setCards(cardData);
           })
           .catch((err) => console.log(err));
-
+          history.push('/');
         }
-        
+      });
+    }
+
+    /*
+    if(tokenCheck()) {
+      api.getUserInfo()
+      .then(user => {
+        setCurrentUser(prev => ({
+          ...prev,
+          name: user.name,
+          about: user.about,
+          avatar: user.avatar,
+          _id: user._id,
+          isLoggedIn: true
+        }));
+        // setToken(jwt);
+        history.push('/');
+
+      })
+      .catch((err) => console.log(err));
+  
+      api.getCardList()
+      .then(cardData => {
+        setCards(cardData);
       })
       .catch((err) => console.log(err));
 
     } else {
-      history.push('/signin');
+      console.log('tokenCheck failed - useEffect - App');
+      history.push(location);
     }
-      /*
-      if(currentUser.isLoggedIn) {
-        history.push(location);
-      }
-      */
-  }, []);
+    */
+  }, [history, jwt]);
 
   /*
   useEffect(() => {
@@ -219,9 +258,9 @@ function App() {
       <CurrentUserContext.Provider value={{ currentUser, setCurrentUser }}>
         <Header />
         <Switch>
-          <Route path="/signin">
+          <UnprotectedRoute path="/signin">
             <Signin tokenSet={setToken} />
-          </Route>
+          </UnprotectedRoute>
           <Route path="/signup">
            <Signup />
           </Route>

@@ -6,8 +6,8 @@ function Signup() {
   const history = useHistory();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const location = useLocation();
-  console.log('location Signup:', location);
+  // const location = useLocation();
+  // console.log('location Signup:', location);
 
   function handleEmailChange(e) {
     setEmail(e.target.value);
