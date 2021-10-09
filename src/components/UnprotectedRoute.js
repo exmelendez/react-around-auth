@@ -4,7 +4,6 @@ import { CurrentUserContext } from '../contexts/CurrentUserContext';
 
 function UnprotectedRoute({ children, ...props }) {
   const { currentUser } = useContext(CurrentUserContext);
-  console.log('logged in status - Unprotected Route:', currentUser.isLoggedIn);
 
   return (
     <Route {...props}>

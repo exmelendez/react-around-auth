@@ -3,7 +3,7 @@ import { useHistory, useLocation } from 'react-router-dom';
 import { CurrentUserContext } from '../contexts/CurrentUserContext';
 import * as auth from "../middleware/auth";
 
-function Signin({tokenSet}) {
+function Signin({tokenSet, getUserData, getCards}) {
   const history = useHistory();
   const [password, setPassword] = useState('');
   const [email, setEmail] = useState('');
@@ -29,10 +29,16 @@ function Signin({tokenSet}) {
       if(data.token) {
         setEmail('');
         setPassword('');
+        /*
         setCurrentUser(prev => ({
           ...prev,
           isLoggedIn: true
         }));
+        */
+        auth.getContent(data.token).then((res) => {
+          getUserData(res.data.email);
+          getCards();
+        }).catch((err) => console.log(err));
         tokenSet(data.token);
         history.push('/');
       } 

@@ -17,7 +17,6 @@ import Test from './Test';
 import * as auth from '../middleware/auth';
 
 function App() {
-  const jwt = localStorage.getItem('jwt');
   const [currentUser, setCurrentUser] = useState({ name: "", about: "", avatar: "", email: "", _id: "", isLoggedIn: false });
   const [isEditProfilePopupOpen, setEditProfilePopupOpen] = useState(false);
   const [isAddPlacePopupOpen, setAddPlacePopupOpen] = useState(false);
@@ -25,12 +24,10 @@ function App() {
   const [isImagePopupOpen, setImagePopupOpen] = useState(false);
   const [selectedCard, setSelectedCard] = useState(null);
   const [cards, setCards] = useState([]);
-  const [token, setToken] = useState('');
-  // const [isLoginForm, setIsLoginForm] = useState(true);
-  // const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [token, setToken] = useState(localStorage.getItem('jwt'));
+  const jwt = localStorage.getItem('jwt');
   const history = useHistory();
   const location = useLocation();
-  // console.log('location App:', location);
 
   function closeAllPopups(e) {
     if (e.target.classList.contains('modal__close-btn') || e.target.classList.contains('modal_is-open') || e.key === "Escape") {
@@ -141,6 +138,7 @@ function App() {
     });
   }
 
+  /*
   function tokenCheck() {
     if(localStorage.getItem('jwt')) {
       const jwt = localStorage.getItem('jwt');
@@ -172,12 +170,41 @@ function App() {
       return false;
     }
   }
+  */
+
+  const getUserData = userEmail => {
+    api.getUserInfo()
+      .then(user => {
+        setCurrentUser(prev => ({
+          ...prev,
+          name: user.name,
+          about: user.about,
+          avatar: user.avatar,
+          _id: user._id,
+          email: userEmail,
+          isLoggedIn: true
+        }));
+      })
+      .catch((err) => console.log(err));
+  };
+
+  const getCards = () => {
+    api.getCardList()
+    .then(cardData => {
+      setCards(cardData);
+    })
+    .catch((err) => console.log(err));
+  };
+
 
   useEffect(() => {
-    if (jwt) {
-      auth.getContent(jwt).then((res) => {
-        if (res) {
 
+    if (token) {
+      auth.getContent(jwt).then((res) => {
+        if (res.data) {
+          getUserData(res.data.email);
+          getCards();
+          /*
           api.getUserInfo()
           .then(user => {
             setCurrentUser(prev => ({
@@ -192,14 +219,16 @@ function App() {
           })
           .catch((err) => console.log(err));
           
+          
           api.getCardList()
           .then(cardData => {
             setCards(cardData);
           })
           .catch((err) => console.log(err));
+          */
           history.push('/');
         }
-      });
+      }).catch((err) => console.log(err));
     }
 
     /*
@@ -259,7 +288,7 @@ function App() {
         <Header />
         <Switch>
           <UnprotectedRoute path="/signin">
-            <Signin tokenSet={setToken} />
+            <Signin tokenSet={setToken} getUserData={getUserData} getCards = {getCards} />
           </UnprotectedRoute>
           <Route path="/signup">
            <Signup />
