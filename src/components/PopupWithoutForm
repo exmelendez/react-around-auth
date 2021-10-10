@@ -1,0 +1,14 @@
+function PopupWithoutForm({name, isOpen, onClose}) {
+  const xSymbol = '\u002B';
+
+  return (
+    <div className={`modal modal_type_${name} ${isOpen ? 'modal_is-open' : ''}`} onClick={onClose}>
+      <div className="modal__container">
+        <button className={`modal__close-btn`} aria-label="Close popup" onClick={onClose}>{xSymbol}</button>
+        <h2 className="modal__title">Sign up Message</h2>
+      </div>
+    </div>
+  );
+}
+
+export default PopupWithoutForm;

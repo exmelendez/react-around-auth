@@ -13,6 +13,7 @@ import Signin from './Signin';
 import Signup from './Signup';
 import ProtectedRoute from './ProtectedRoute';
 import UnprotectedRoute from './UnprotectedRoute';
+import PopupWithoutForm from './PopupWithoutForm';
 import Test from './Test';
 import * as auth from '../middleware/auth';
 
@@ -21,6 +22,7 @@ function App() {
   const [isEditProfilePopupOpen, setEditProfilePopupOpen] = useState(false);
   const [isAddPlacePopupOpen, setAddPlacePopupOpen] = useState(false);
   const [isEditAvatarPopupOpen, setEditAvatarPopupOpen] = useState(false);
+  const [isPopupWithoutFormOpen, setPopupWithoutFormOpen] = useState(false);
   const [isImagePopupOpen, setImagePopupOpen] = useState(false);
   const [selectedCard, setSelectedCard] = useState(null);
   const [cards, setCards] = useState([]);
@@ -35,6 +37,7 @@ function App() {
       setAddPlacePopupOpen(false);
       setEditAvatarPopupOpen(false);
       setImagePopupOpen(false);
+      setPopupWithoutFormOpen(false);
       setSelectedCard(null);
       document.removeEventListener("keyup", handleEscClose);
     }
@@ -305,6 +308,7 @@ function App() {
         <EditProfilePopup isOpen={isEditProfilePopupOpen} onClose={closeAllPopups} onUpdateUser={handleUpdateUser} />
         <EditAvatarPopup isOpen={isEditAvatarPopupOpen} onClose={closeAllPopups} onUpdateAvatar={handleUpdateAvatar}/>
         <AddPlacePopup isOpen={isAddPlacePopupOpen} onClose={closeAllPopups} onAddPlace={handleAddPlace}/>
+        <PopupWithoutForm name="test" isOpen={isPopupWithoutFormOpen} onClose={closeAllPopups} />
 
         {
           isImagePopupOpen ? <ImagePopup card={selectedCard} isOpen={isImagePopupOpen} onClose={closeAllPopups}/> : ""
