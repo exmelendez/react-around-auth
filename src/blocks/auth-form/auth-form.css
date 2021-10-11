@@ -1,0 +1,11 @@
+@import url('./__input/auth-form__input.css');
+@import url('./__input/_password/auth-form__input_password.css');
+@import url('./__submit-btn/auth-form__submit-btn.css');
+@import url('./__title/auth-form__title.css');
+
+.auth-form {
+  color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}

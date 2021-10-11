@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useHistory, useLocation } from "react-router-dom";
 import * as auth from "../middleware/auth";
+import AuthForm from "./AuthForm";
 
 function Signup({ onMessagePopup }) {
   const history = useHistory();
@@ -31,12 +32,7 @@ function Signup({ onMessagePopup }) {
   }
 
   return (
-    <form onSubmit={handleSubmit}>
-      <h2 style={{color: "red"}}>Sign Up</h2>
-      <input required id="signup-email" type="email" name="email" placeholder="Email" onChange={handleEmailChange}/>
-      <input required id="signup-password" type="password" name="password" placeholder="Password" onChange={handlePasswordChange} />
-      <button type="submit" value="submit">Sign up</button>
-    </form>
+    <AuthForm title="Sign up" formSubmit={handleSubmit} emailChange={handleEmailChange} passwordChange={handlePasswordChange} />
   );
 }
 

@@ -1,0 +1,37 @@
+@import url('./_password/auth-form__input_password.css');
+
+:root {
+  --input-placeholder-text-color: white;
+}
+
+.auth-form__input {
+  width: 358px;
+  background-color: black;
+  border-width: 0 0 2px;
+  border-color: white;
+  font-size: 14px;
+  font-weight: 400;
+  font-family: 'Inter', 'Arial', sans-serif;
+
+  line-height: 32px;
+
+  padding-top: 0;
+  padding-bottom: 0;
+
+  color: white;
+}
+
+::placeholder {
+  color: var(--input-placeholder-text-color);
+  font-family: 'Inter', 'Arial', sans-serif;
+}
+
+:-ms-input-placeholder { /* Internet Explorer 10-11 */
+  color: var(--input-placeholder-text-color);
+  font-family: 'Inter', 'Arial', sans-serif;
+ }
+ 
+ ::-ms-input-placeholder { /* Microsoft Edge */
+  color: var(--input-placeholder-text-color);
+  font-family: 'Inter', 'Arial', sans-serif;
+ }
