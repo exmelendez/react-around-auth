@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useHistory, useLocation } from "react-router-dom";
 import * as auth from "../middleware/auth";
 
-function Signup() {
+function Signup({ onMessagePopup }) {
   const history = useHistory();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -23,8 +23,10 @@ function Signup() {
     .then((res) => {
       if(res.error) {
         console.log('did not successfully register for the following reason:', res.error);
+        onMessagePopup('Oops, something went wrong! Please try again.', true);
       } else {
         history.push('/signin');
+        onMessagePopup('Success! You have now been registered.', false);
         console.log('successful registration');
       }
     });

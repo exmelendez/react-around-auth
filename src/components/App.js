@@ -24,6 +24,8 @@ function App() {
   const [isEditAvatarPopupOpen, setEditAvatarPopupOpen] = useState(false);
   const [isPopupWithoutFormOpen, setPopupWithoutFormOpen] = useState(false);
   const [isImagePopupOpen, setImagePopupOpen] = useState(false);
+  const [popupMessage, setPopupMessage] = useState('');
+  const [isPopupError, setPopupError] = useState(false);
   const [selectedCard, setSelectedCard] = useState(null);
   const [cards, setCards] = useState([]);
   const [token, setToken] = useState(localStorage.getItem('jwt'));
@@ -95,6 +97,13 @@ function App() {
   
   function handleEditProfileClick() {
     setEditProfilePopupOpen(!isEditProfilePopupOpen);
+    enableEscKey();
+  }
+  
+  function handleMessagePopup(popupMsg, isMsgError) {
+    setPopupMessage(popupMsg);
+    setPopupError(isMsgError);
+    setPopupWithoutFormOpen(!isPopupWithoutFormOpen);
     enableEscKey();
   }
 
@@ -294,7 +303,7 @@ function App() {
             <Signin tokenSet={setToken} getUserData={getUserData} getCards = {getCards} />
           </UnprotectedRoute>
           <Route path="/signup">
-           <Signup />
+           <Signup onMessagePopup={handleMessagePopup} />
           </Route>
           <ProtectedRoute path="/test">
             <Test />
@@ -308,7 +317,7 @@ function App() {
         <EditProfilePopup isOpen={isEditProfilePopupOpen} onClose={closeAllPopups} onUpdateUser={handleUpdateUser} />
         <EditAvatarPopup isOpen={isEditAvatarPopupOpen} onClose={closeAllPopups} onUpdateAvatar={handleUpdateAvatar}/>
         <AddPlacePopup isOpen={isAddPlacePopupOpen} onClose={closeAllPopups} onAddPlace={handleAddPlace}/>
-        <PopupWithoutForm name="test" isOpen={isPopupWithoutFormOpen} onClose={closeAllPopups} />
+        <PopupWithoutForm name="message" isOpen={isPopupWithoutFormOpen} onClose={closeAllPopups} message={popupMessage} isErrorMsg={isPopupError}/>
 
         {
           isImagePopupOpen ? <ImagePopup card={selectedCard} isOpen={isImagePopupOpen} onClose={closeAllPopups}/> : ""

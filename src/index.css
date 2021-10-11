@@ -3,6 +3,7 @@
 @import './blocks/form/form.css';
 @import './blocks/header/header.css';
 @import './blocks/modal/modal.css';
+@import './blocks/modal/_msg-type/modal_msg-type.css';
 @import './blocks/modal/_is-open/modal_is-open.css';
 @import './blocks/page/page.css';
 @import './blocks/photos/photos.css';
