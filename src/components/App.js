@@ -14,7 +14,6 @@ import Signup from './Signup';
 import ProtectedRoute from './ProtectedRoute';
 import UnprotectedRoute from './UnprotectedRoute';
 import PopupWithoutForm from './PopupWithoutForm';
-import Test from './Test';
 import * as auth from '../middleware/auth';
 
 function App() {
@@ -305,9 +304,6 @@ function App() {
           <Route path="/signup">
            <Signup onMessagePopup={handleMessagePopup} />
           </Route>
-          <ProtectedRoute path="/test">
-            <Test />
-          </ProtectedRoute>
           <ProtectedRoute path="/">
             <Main onEditProfile={handleEditProfileClick} onAddPlace={handleEditAddPlaceClick} onEditAvatar={handleEditAvatarClick} onCardClick={handleCardClick} cards={cards} onCardLike={handleCardLike} onCardDelete={handleCardDelete}/>
           </ProtectedRoute>
