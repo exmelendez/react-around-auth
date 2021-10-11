@@ -6,6 +6,8 @@
 @import url('./__image-title/modal__image-title.css');
 @import url('./__title/modal__title.css');
 @import url('./__confirm-delete-btn/modal__confirm-delete-btn.css');
+@import url('./__msg-image/modal__msg-image.css');
+@import url('./__msg-text/modal__msg-text.css');
 
 .modal {
   position: fixed;

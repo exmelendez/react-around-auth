@@ -8,9 +8,8 @@ function PopupWithoutForm({name, isOpen, onClose, message, isErrorMsg}) {
     <div className={`modal modal_type_${name} ${isOpen ? 'modal_is-open' : ''}`} onClick={onClose}>
       <div className="modal__container modal_msg-type">
         <button className={`modal__close-btn`} aria-label="Close popup" onClick={onClose}>{xSymbol}</button>
-        {/* <h2 className="modal__title">Sign up Message</h2> */}
-        <img className="" style={{width: "120px", paddingTop: "40px"}} src={isErrorMsg ? xMark : checkMark} alt="X mark within a circle" />
-        <p>{message}</p>
+        <img className="modal__msg-image" src={isErrorMsg ? xMark : checkMark} alt="X mark within a circle" />
+        <p className="modal__msg-text" >{message}</p>
       </div>
     </div>
   );

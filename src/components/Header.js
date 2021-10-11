@@ -6,7 +6,6 @@ import logo from '../images/logo.svg';
 function Header() {
   const { currentUser, setCurrentUser } = useContext(CurrentUserContext);
   const history = useHistory();
-  // console.log(history);
 
   function handleLogout() {
     console.log('logout btn clicked');
