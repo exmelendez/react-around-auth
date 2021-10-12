@@ -174,33 +174,11 @@ function App() {
         if (res.data) {
           getUserData(res.data.email);
           getCards();
-          /*
-          api.getUserInfo()
-          .then(user => {
-            setCurrentUser(prev => ({
-              ...prev,
-              name: user.name,
-              about: user.about,
-              avatar: user.avatar,
-              _id: user._id,
-              email: res.data.email,
-              isLoggedIn: true
-            }));
-          })
-          .catch((err) => console.log(err));
-          
-          
-          api.getCardList()
-          .then(cardData => {
-            setCards(cardData);
-          })
-          .catch((err) => console.log(err));
-          */
           history.push('/');
         }
       }).catch((err) => console.log(err));
     }
-  }, [history, jwt]);
+  }, [history, jwt, token]);
 
   return (
       <CurrentUserContext.Provider value={{ currentUser, setCurrentUser }}>
