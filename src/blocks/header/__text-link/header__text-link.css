@@ -2,4 +2,8 @@
   color: #9A9A9A;
   text-decoration: none;
   cursor: pointer;
+
+  margin-left: 24px;
+  font-weight: 400;
+  text-align: right;
 }

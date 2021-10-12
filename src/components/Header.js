@@ -1,11 +1,26 @@
 import { useContext } from 'react';
 import { CurrentUserContext } from '../contexts/CurrentUserContext';
-import { useHistory } from "react-router-dom";
+import { useHistory, useLocation, Link } from "react-router-dom";
 import logo from '../images/logo.svg';
 
 function Header() {
   const { currentUser, setCurrentUser } = useContext(CurrentUserContext);
   const history = useHistory();
+  const location = useLocation();
+  let navLinkText;
+
+  function determineNavPath() {
+    switch (location.pathname) {
+      case '/signin':
+        navLinkText = 'Sign up';
+        return '/signup';
+      case '/signup':
+        navLinkText = 'Log in';
+        return '/signin';
+      default:
+        return 'other';
+    }
+  }
 
   function handleLogout() {
     console.log('logout btn clicked');
@@ -25,9 +40,14 @@ function Header() {
       <div className="header__content">
         <p className="header__text-container">
           { currentUser.isLoggedIn && (<span className="header__user-email">{currentUser.email}</span>) }
-          <a className="header__text-link" onClick={handleLogout}>
-            <span className="header__text">{ currentUser.isLoggedIn ? 'Log out' : 'Log in'}</span>
-          </a>
+
+          {
+            determineNavPath() !== 'other' && <Link className="header__text-link" to={determineNavPath()}>{navLinkText}</Link>
+          }
+
+          {
+            determineNavPath() === 'other' && <Link className="header__text-link" onClick={handleLogout}>Log out</Link>
+          }
         </p>
       </div>
     </header>
