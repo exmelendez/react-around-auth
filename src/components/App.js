@@ -14,7 +14,7 @@ import Signup from './Signup';
 import ProtectedRoute from './ProtectedRoute';
 import UnprotectedRoute from './UnprotectedRoute';
 import PopupWithoutForm from './PopupWithoutForm';
-import * as auth from '../middleware/auth';
+import * as auth from '../utils/auth';
 
 function App() {
   const [currentUser, setCurrentUser] = useState({ name: "", about: "", avatar: "", email: "", _id: "", isLoggedIn: false });

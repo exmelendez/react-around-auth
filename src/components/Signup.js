@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useHistory } from "react-router-dom";
-import * as auth from "../middleware/auth";
+import * as auth from "../utils/auth";
 import AuthForm from "./AuthForm";
 import AuthRedirect from "./AuthRedirect";
 

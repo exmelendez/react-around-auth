@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import AuthForm from './AuthForm';
 import AuthRedirect from './AuthRedirect';
-import * as auth from "../middleware/auth";
+import * as auth from "../utils/auth";
 
 function Signin({tokenSet, getUserData, getCards, onMessagePopup}) {
   const history = useHistory();
