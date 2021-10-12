@@ -1,4 +1,5 @@
 @import './blocks/auth-form/auth-form.css';
+@import './blocks/auth-redirect/auth-redirect.css';
 @import './blocks/content/content.css';
 @import './blocks/footer/footer.css';
 @import './blocks/form/form.css';

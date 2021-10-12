@@ -29,11 +29,11 @@ export const authorize = (password, email) => {
       localStorage.setItem('jwt', data.token);
       return data;
     }
+    return data;
   })
   .catch((err) => console.log(err));
 };
 
-// eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MTViODFjMjY3YzBjODAwMTMxZWFhOTEiLCJpYXQiOjE2MzMzODY5ODJ9.aRCTkcWIc5CLYZZRrvekguDWKPcSzzOGyd-tDjhky1s
 export const getContent = (token) => {
   return fetch(`${BASE_URL}/users/me`, {
     method: 'GET',

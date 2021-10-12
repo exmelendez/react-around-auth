@@ -299,7 +299,7 @@ function App() {
         <Header />
         <Switch>
           <UnprotectedRoute path="/signin">
-            <Signin tokenSet={setToken} getUserData={getUserData} getCards = {getCards} />
+            <Signin tokenSet={setToken} getUserData={getUserData} getCards ={getCards} onMessagePopup={handleMessagePopup} />
           </UnprotectedRoute>
           <Route path="/signup">
            <Signup onMessagePopup={handleMessagePopup} />

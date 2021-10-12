@@ -1,14 +1,13 @@
-import { useState, useContext } from 'react';
-import { useHistory, useLocation } from 'react-router-dom';
-import { CurrentUserContext } from '../contexts/CurrentUserContext';
+import { useState } from 'react';
+import { useHistory } from 'react-router-dom';
+import AuthForm from './AuthForm';
+import AuthRedirect from './AuthRedirect';
 import * as auth from "../middleware/auth";
 
-function Signin({tokenSet, getUserData, getCards}) {
+function Signin({tokenSet, getUserData, getCards, onMessagePopup}) {
   const history = useHistory();
-  const [password, setPassword] = useState('');
   const [email, setEmail] = useState('');
-  const { setCurrentUser } = useContext(CurrentUserContext);
-  // const location = useLocation();
+  const [password, setPassword] = useState('');
 
   function handleEmailChange(e) {
     setEmail(e.target.value);
@@ -29,30 +28,25 @@ function Signin({tokenSet, getUserData, getCards}) {
       if(data.token) {
         setEmail('');
         setPassword('');
-        /*
-        setCurrentUser(prev => ({
-          ...prev,
-          isLoggedIn: true
-        }));
-        */
+        
         auth.getContent(data.token).then((res) => {
           getUserData(res.data.email);
           getCards();
         }).catch((err) => console.log(err));
         tokenSet(data.token);
         history.push('/');
-      } 
+      } else {
+        onMessagePopup('Incorrect email or password! Please try again.', true);
+      }
     })
     .catch((err) => console.log(err));
   }
 
   return (
-      <form onSubmit={handleSubmit}>
-        <h2 style={{color: "red"}}>Sign In</h2>
-        <input required id="signin-email" type="email" name="email" placeholder="Email" value={email} onChange={handleEmailChange}/>
-        <input required id="signin-password" type="password" name="password" placeholder="Password" value={password} onChange={handlePasswordChange} />
-        <button type="submit" value="submit">Sign in</button>
-      </form>
+    <>
+      <AuthForm title="Log in" formSubmit={handleSubmit} emailChange={handleEmailChange} passwordChange={handlePasswordChange} />
+      <AuthRedirect routeRedirect="/signup" linkText="Not a member yet? Sign up here!" />
+    </>
   );
 }
 
