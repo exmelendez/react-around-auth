@@ -11,6 +11,10 @@
   line-height: 17px;
 }
 
+.form__input::placeholder {
+  color: black;
+}
+
 .form__input:first-child {
   padding-bottom: 0;
   margin-bottom: 3px;

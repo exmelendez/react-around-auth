@@ -45,7 +45,7 @@ function Header() {
           }
 
           {
-            determineNavPath() === 'other' && <Link className="header__text-link" onClick={handleLogout}>Log out</Link>
+            determineNavPath() === 'other' && <Link className="header__text-link" to="#" onClick={handleLogout}>Log out</Link>
           }
         </p>
       </div>
