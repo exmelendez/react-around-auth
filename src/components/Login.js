@@ -4,7 +4,7 @@ import AuthForm from './AuthForm';
 import AuthRedirect from './AuthRedirect';
 import * as auth from "../utils/auth";
 
-function Signin({tokenSet, getUserData, getCards, onMessagePopup}) {
+function Login({tokenSet, getUserData, getCards, onMessagePopup}) {
   const history = useHistory();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -50,4 +50,4 @@ function Signin({tokenSet, getUserData, getCards, onMessagePopup}) {
   );
 }
 
-export default Signin;
+export default Login;

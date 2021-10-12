@@ -4,7 +4,7 @@ import * as auth from "../utils/auth";
 import AuthForm from "./AuthForm";
 import AuthRedirect from "./AuthRedirect";
 
-function Signup({ onMessagePopup }) {
+function Register({ onMessagePopup }) {
   const history = useHistory();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -38,4 +38,4 @@ function Signup({ onMessagePopup }) {
   );
 }
 
-export default Signup;
+export default Register;

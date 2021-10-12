@@ -1,7 +1,7 @@
 import xMark from '../images/x_mark.svg'
 import checkMark from '../images/check_mark.svg'
 
-function PopupWithoutForm({name, isOpen, onClose, message, isErrorMsg}) {
+function InfoTooltip({name, isOpen, onClose, message, isErrorMsg}) {
   const xSymbol = '\u002B';
 
   return (
@@ -15,4 +15,4 @@ function PopupWithoutForm({name, isOpen, onClose, message, isErrorMsg}) {
   );
 }
 
-export default PopupWithoutForm;
+export default InfoTooltip;

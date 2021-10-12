@@ -23,7 +23,6 @@ function Header() {
   }
 
   function handleLogout() {
-    console.log('logout btn clicked');
     localStorage.removeItem('jwt');
     setCurrentUser(prev => ({
       ...prev,
