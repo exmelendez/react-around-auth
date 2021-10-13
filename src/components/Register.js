@@ -21,12 +21,16 @@ function Register({ onMessagePopup }) {
     e.preventDefault();
     auth.register(password, email)
     .then((res) => {
-      if(res.error) {
-        onMessagePopup('Oops, something went wrong! Please try again.', true);
-      } else {
+      if(res.data){
+        setEmail('');
+        setPassword('');
         history.push('/signin');
         onMessagePopup('Success! You have now been registered.', false);
       }
+    })
+    .catch(err => {
+      onMessagePopup('Oops, something went wrong! Please try again.', true);
+      console.log(err)
     });
   }
 
