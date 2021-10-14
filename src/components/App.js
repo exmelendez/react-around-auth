@@ -47,6 +47,30 @@ function App() {
     document.addEventListener("keyup", handleEscClose);
   }
 
+  const getCards = () => {
+    api.getCardList()
+    .then(cardData => {
+      setCards(cardData);
+    })
+    .catch((err) => console.log(err));
+  };
+
+  const getUserData = userEmail => {
+    api.getUserInfo()
+      .then(user => {
+        setCurrentUser(prev => ({
+          ...prev,
+          name: user.name,
+          about: user.about,
+          avatar: user.avatar,
+          _id: user._id,
+          email: userEmail,
+          isLoggedIn: true
+        }));
+      })
+      .catch((err) => console.log(err));
+  };
+
   function handleAddPlace(newPlace) {
     api.addCard(newPlace)
     .then(newCard => {
@@ -98,6 +122,12 @@ function App() {
     enableEscKey();
   }
   
+  function handleEscClose(e) {
+    if (e.key === 'Escape') {
+      closeAllPopups(e);
+    }
+  }
+
   function handleMessagePopup(popupMsg, isMsgError) {
     setPopupMessage(popupMsg);
     setPopupError(isMsgError);
@@ -105,10 +135,18 @@ function App() {
     enableEscKey();
   }
 
-  function handleEscClose(e) {
-    if (e.key === 'Escape') {
-      closeAllPopups(e);
-    }
+  function handleSignup(password, email) {
+    auth.register(password, email)
+    .then((res) => {
+      if(res.data){
+        history.push('/signin');
+        handleMessagePopup('Success! You have now been registered.', false);
+      }
+    })
+    .catch(err => {
+      handleMessagePopup('Oops, something went wrong! Please try again.', true);
+      console.log(err)
+    });
   }
 
   function handleUpdateAvatar(avatar) {
@@ -142,31 +180,6 @@ function App() {
     });
   }
 
-  const getUserData = userEmail => {
-    api.getUserInfo()
-      .then(user => {
-        setCurrentUser(prev => ({
-          ...prev,
-          name: user.name,
-          about: user.about,
-          avatar: user.avatar,
-          _id: user._id,
-          email: userEmail,
-          isLoggedIn: true
-        }));
-      })
-      .catch((err) => console.log(err));
-  };
-
-  const getCards = () => {
-    api.getCardList()
-    .then(cardData => {
-      setCards(cardData);
-    })
-    .catch((err) => console.log(err));
-  };
-
-
   useEffect(() => {
 
     if (token) {
@@ -188,7 +201,7 @@ function App() {
             <Login tokenSet={setToken} getUserData={getUserData} getCards ={getCards} onMessagePopup={handleMessagePopup} />
           </UnprotectedRoute>
           <UnprotectedRoute path="/signup">
-           <Register onMessagePopup={handleMessagePopup} />
+           <Register onMessagePopup={handleMessagePopup} handleSignup={handleSignup}/>
           </UnprotectedRoute>
           <ProtectedRoute path="/">
             <Main onEditProfile={handleEditProfileClick} onAddPlace={handleEditAddPlaceClick} onEditAvatar={handleEditAvatarClick} onCardClick={handleCardClick} cards={cards} onCardLike={handleCardLike} onCardDelete={handleCardDelete}/>

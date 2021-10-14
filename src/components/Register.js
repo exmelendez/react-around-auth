@@ -1,11 +1,8 @@
 import { useState } from "react";
-import { useHistory } from "react-router-dom";
-import * as auth from "../utils/auth";
 import AuthForm from "./AuthForm";
 import AuthRedirect from "./AuthRedirect";
 
-function Register({ onMessagePopup }) {
-  const history = useHistory();
+function Register({ handleSignup }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
@@ -19,19 +16,7 @@ function Register({ onMessagePopup }) {
 
   function handleSubmit(e) {
     e.preventDefault();
-    auth.register(password, email)
-    .then((res) => {
-      if(res.data){
-        setEmail('');
-        setPassword('');
-        history.push('/signin');
-        onMessagePopup('Success! You have now been registered.', false);
-      }
-    })
-    .catch(err => {
-      onMessagePopup('Oops, something went wrong! Please try again.', true);
-      console.log(err)
-    });
+    handleSignup(password, email);
   }
 
   return (

@@ -25,6 +25,7 @@ function Login({tokenSet, getUserData, getCards, onMessagePopup}) {
 
     auth.authorize(password, email)
     .then((data) => {
+      
       if(data.token) {
         setEmail('');
         setPassword('');
@@ -39,7 +40,10 @@ function Login({tokenSet, getUserData, getCards, onMessagePopup}) {
         onMessagePopup('Incorrect email or password! Please try again.', true);
       }
     })
-    .catch((err) => console.log(err));
+    .catch((err) => {
+      onMessagePopup('Incorrect email or password! Please try again.', true);
+      console.log(err)
+    });
   }
 
   return (
