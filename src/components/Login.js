@@ -30,7 +30,8 @@ function Login({tokenSet, getUserData, getCards, onMessagePopup}) {
         setEmail('');
         setPassword('');
         
-        auth.getContent(data.token).then((res) => {
+        auth.getUserData(data.token).then((res) => {
+          console.log(res);
           getUserData(res.data.email);
           getCards();
         }).catch((err) => console.log(err));

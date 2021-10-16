@@ -55,7 +55,7 @@ function App() {
     .catch((err) => console.log(err));
   };
 
-  const getUserData = userEmail => {
+  const getContent = userEmail => {
     api.getUserInfo()
       .then(user => {
         setCurrentUser(prev => ({
@@ -128,6 +128,10 @@ function App() {
     }
   }
 
+  function handleLogin() {
+    console.log('login');
+  }
+
   function handleMessagePopup(popupMsg, isMsgError) {
     setPopupMessage(popupMsg);
     setPopupError(isMsgError);
@@ -183,9 +187,9 @@ function App() {
   useEffect(() => {
 
     if (token) {
-      auth.getContent(jwt).then((res) => {
+      auth.getUserData(jwt).then((res) => {
         if (res.data) {
-          getUserData(res.data.email);
+          getContent(res.data.email);
           getCards();
           history.push('/');
         }
@@ -198,7 +202,7 @@ function App() {
         <Header />
         <Switch>
           <UnprotectedRoute path="/signin">
-            <Login tokenSet={setToken} getUserData={getUserData} getCards ={getCards} onMessagePopup={handleMessagePopup} />
+            <Login tokenSet={setToken} getContent={getContent} getCards ={getCards} onMessagePopup={handleMessagePopup} />
           </UnprotectedRoute>
           <UnprotectedRoute path="/signup">
            <Register onMessagePopup={handleMessagePopup} handleSignup={handleSignup}/>

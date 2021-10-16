@@ -31,7 +31,7 @@ export const authorize = (password, email) => {
   .then(handleResponse);
 };
 
-export const getContent = (token) => {
+export const getUserData = (token) => {
   return fetch(`${BASE_URL}/users/me`, {
     method: 'GET',
     headers: {
