@@ -28,7 +28,7 @@ function App() {
   const [selectedCard, setSelectedCard] = useState(null);
   const [cards, setCards] = useState([]);
   const [token, setToken] = useState(localStorage.getItem('jwt'));
-  const jwt = localStorage.getItem('jwt');
+  // const jwt = localStorage.getItem('jwt');
   const history = useHistory();
 
   function closeAllPopups(e) {
@@ -67,6 +67,7 @@ function App() {
           email: userEmail,
           isLoggedIn: true
         }));
+        getCards();
       })
       .catch((err) => console.log(err));
   };
@@ -128,8 +129,24 @@ function App() {
     }
   }
 
-  function handleLogin() {
-    console.log('login');
+  function handleLogin(password, email) {
+    auth.authorize(password, email)
+    .then((res) => {
+      if(res.token){
+        localStorage.setItem('jwt', res.token);
+        setToken(res.token);
+        auth.tokenCheck(res.token)
+        .then(data => {
+          getContent(data.email);
+          history.push('/');
+        })
+        .catch(err => console.log(err));
+      }
+    })
+    .catch((err) => {
+      console.log(err);
+      handleMessagePopup('Incorrect email or password! Please try again.', true);
+    });
   }
 
   function handleMessagePopup(popupMsg, isMsgError) {
@@ -187,25 +204,25 @@ function App() {
   useEffect(() => {
 
     if (token) {
-      auth.getUserData(jwt).then((res) => {
+      auth.tokenCheck(token).then((res) => {
         if (res.data) {
           getContent(res.data.email);
-          getCards();
+          // getCards();
           history.push('/');
         }
       }).catch((err) => console.log(err));
     }
-  }, [history, jwt, token]);
+  }, [history, token]);
 
   return (
       <CurrentUserContext.Provider value={{ currentUser, setCurrentUser }}>
         <Header />
         <Switch>
           <UnprotectedRoute path="/signin">
-            <Login tokenSet={setToken} getContent={getContent} getCards ={getCards} onMessagePopup={handleMessagePopup} />
+            <Login handleLogin={handleLogin} />
           </UnprotectedRoute>
           <UnprotectedRoute path="/signup">
-           <Register onMessagePopup={handleMessagePopup} handleSignup={handleSignup}/>
+           <Register handleSignup={handleSignup} />
           </UnprotectedRoute>
           <ProtectedRoute path="/">
             <Main onEditProfile={handleEditProfileClick} onAddPlace={handleEditAddPlaceClick} onEditAvatar={handleEditAvatarClick} onCardClick={handleCardClick} cards={cards} onCardLike={handleCardLike} onCardDelete={handleCardDelete}/>

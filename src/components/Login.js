@@ -1,11 +1,8 @@
 import { useState } from 'react';
-import { useHistory } from 'react-router-dom';
 import AuthForm from './AuthForm';
 import AuthRedirect from './AuthRedirect';
-import * as auth from "../utils/auth";
 
-function Login({tokenSet, getUserData, getCards, onMessagePopup}) {
-  const history = useHistory();
+function Login({ handleLogin }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
@@ -18,33 +15,11 @@ function Login({tokenSet, getUserData, getCards, onMessagePopup}) {
   }
 
   function handleSubmit(e) {
-    e.preventDefault();
     if(!email || !password) {
       return;
     }
-
-    auth.authorize(password, email)
-    .then((data) => {
-      
-      if(data.token) {
-        setEmail('');
-        setPassword('');
-        
-        auth.getUserData(data.token).then((res) => {
-          console.log(res);
-          getUserData(res.data.email);
-          getCards();
-        }).catch((err) => console.log(err));
-        tokenSet(data.token);
-        history.push('/');
-      } else {
-        onMessagePopup('Incorrect email or password! Please try again.', true);
-      }
-    })
-    .catch((err) => {
-      onMessagePopup('Incorrect email or password! Please try again.', true);
-      console.log(err)
-    });
+    e.preventDefault();
+    handleLogin(password, email);
   }
 
   return (
