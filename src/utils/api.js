@@ -1,89 +1,96 @@
-class Api {
-  constructor({ baseUrl, headers }) {
-    this._baseUrl = baseUrl;
-    this._headers = headers;
+const BASE_URL = 'https://around.nomoreparties.co/v1/group-4';
+
+const handleResponse = (res) => {
+  if (!res.ok) {
+    return Promise.reject(`Error: ${res.status}`);
   }
+  return res.json();
+}
 
-  handleResponse(res) {
-    if (!res.ok) {
-      return Promise.reject(`Error: ${res.status}`);
-    }
-    return res.json();
-  }
+export const addCard = ({ link, name }) => {
+  return fetch(`${BASE_URL}/cards`, {
+    headers: {
+      authorization: "9d5a3bcf-ed42-48db-a52f-3430aec59f7e",
+      "Content-Type": "application/json"
+    },
+    method: "POST",
+    body: JSON.stringify({ link, name })
+  })
+  .then(handleResponse);
+}
 
-  addCard({ link, name }) {
-    return fetch(`${this._baseUrl}/cards`, {
-      headers: this._headers,
-      method: "POST",
-      body: JSON.stringify({
-        link,
-        name
-      })
-    }).then(this.handleResponse);
-  }
-
-  changeLikeCardStatus(cardId, isLiked) {
-    if (isLiked) {
-      return fetch(`${this._baseUrl}/cards/likes/${cardId}`, {
-        headers: this._headers,
-        method: "DELETE"
-      }).then(this.handleResponse);
-
-    } else {
-      return fetch(`${this._baseUrl}/cards/likes/${cardId}`, {
-        headers: this._headers,
-        method: "PUT"
-      }).then(this.handleResponse);
-    }
-  }
-
-  getCardList() {
-    return fetch(`${this._baseUrl}/cards`, {
-      headers: this._headers
-    }).then(this.handleResponse);
-  }
-
-  getUserInfo() {
-    return fetch(`${this._baseUrl}/users/me`, {
-      headers: this._headers
-    }).then(this.handleResponse);
-  }
-
-  removeCard(cardId) {
-    return fetch(`${this._baseUrl}/cards/${cardId}`, {
-      headers: this._headers,
+export const changeLikeCardStatus = (cardId, isLiked) => {
+  if (isLiked) {
+    return fetch(`${BASE_URL}/cards/likes/${cardId}`, {
+      headers: {
+        authorization: "9d5a3bcf-ed42-48db-a52f-3430aec59f7e",
+        "Content-Type": "application/json"
+      },
       method: "DELETE"
-    }).then(this.handleResponse);
-  }
+    }).then(handleResponse);
 
-  setUserAvatar({ avatar }) {
-    return fetch(`${this._baseUrl}/users/me/avatar`, {
-      headers: this._headers,
-      method: "PATCH",
-      body: JSON.stringify({
-        avatar
-      })
-    }).then(this.handleResponse);
-  }
-
-  setUserInfo({ name, about }) {
-    return fetch(`${this._baseUrl}/users/me`, {
-      headers: this._headers,
-      method: "PATCH",
-      body: JSON.stringify({
-        name,
-        about
-      })
-    }).then(this.handleResponse);
+  } else {
+    return fetch(`${BASE_URL}/cards/likes/${cardId}`, {
+      headers: {
+        authorization: "9d5a3bcf-ed42-48db-a52f-3430aec59f7e",
+        "Content-Type": "application/json"
+      },
+      method: "PUT"
+    }).then(handleResponse);
   }
 }
 
-const api = new Api({
-  baseUrl: "https://around.nomoreparties.co/v1/group-4",
-  headers: {
-    authorization: "9d5a3bcf-ed42-48db-a52f-3430aec59f7e",
-    "Content-Type": "application/json"
-  }
-});
+export const getCardList = () => {
+  return fetch(`${BASE_URL}/cards`, {
+    headers: {
+        authorization: "9d5a3bcf-ed42-48db-a52f-3430aec59f7e",
+        "Content-Type": "application/json"
+      }
+  }).then(handleResponse);
+}
 
-export default api;
+export const getUserInfo = () => {
+  return fetch(`${BASE_URL}/users/me`, {
+    headers: {
+        authorization: "9d5a3bcf-ed42-48db-a52f-3430aec59f7e",
+        "Content-Type": "application/json"
+      }
+  }).then(handleResponse);
+}
+
+export const removeCard = (cardId) => {
+  return fetch(`${BASE_URL}/cards/${cardId}`, {
+    headers: {
+        authorization: "9d5a3bcf-ed42-48db-a52f-3430aec59f7e",
+        "Content-Type": "application/json"
+      },
+    method: "DELETE"
+  }).then(handleResponse);
+}
+
+export const setUserAvatar = ({ avatar }) => {
+  return fetch(`${BASE_URL}/users/me/avatar`, {
+    headers: {
+        authorization: "9d5a3bcf-ed42-48db-a52f-3430aec59f7e",
+        "Content-Type": "application/json"
+      },
+    method: "PATCH",
+    body: JSON.stringify({
+      avatar
+    })
+  }).then(handleResponse);
+}
+
+export const setUserInfo = ({ name, about }) => {
+  return fetch(`${BASE_URL}/users/me`, {
+    headers: {
+        authorization: "9d5a3bcf-ed42-48db-a52f-3430aec59f7e",
+        "Content-Type": "application/json"
+      },
+    method: "PATCH",
+    body: JSON.stringify({
+      name,
+      about
+    })
+  }).then(handleResponse);
+}

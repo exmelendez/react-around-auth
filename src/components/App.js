@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from  'react';
 import { Switch, useHistory } from 'react-router-dom';
-import api from '../utils/api';
+import * as api from '../utils/api';
+// import api from '../utils/api';
 import { CurrentUserContext } from '../contexts/CurrentUserContext';
 import Header from './Header.js';
 import Main from './Main.js';
@@ -28,7 +29,6 @@ function App() {
   const [selectedCard, setSelectedCard] = useState(null);
   const [cards, setCards] = useState([]);
   const [token, setToken] = useState(localStorage.getItem('jwt'));
-  // const jwt = localStorage.getItem('jwt');
   const history = useHistory();
 
   function closeAllPopups(e) {
@@ -199,16 +199,17 @@ function App() {
   function handleUpdateUser(inputValues) {
     api.setUserInfo(inputValues)
     .then(userInfoResponse => {
+      console.log('handleUpdate - App - res:', userInfoResponse);
+      /*
       setCurrentUser({
         name: userInfoResponse.name,
         about: userInfoResponse.about,
         avatar: currentUser.avatar
       });
+      setEditProfilePopupOpen(false);
+      */
     })
     .catch((err) => console.log(err))
-    .finally(() => {
-      setEditProfilePopupOpen(false);
-    });
   }
 
   useEffect(() => {
@@ -238,7 +239,7 @@ function App() {
         </Switch>
         <Footer />
 
-        <EditProfilePopup isOpen={isEditProfilePopupOpen} onClose={closeAllPopups} onUpdateUser={handleUpdateUser} />
+        <EditProfilePopup isOpen={isEditProfilePopupOpen} onClose={closeAllPopups} handleUpdateUser={handleUpdateUser} />
         <EditAvatarPopup isOpen={isEditAvatarPopupOpen} onClose={closeAllPopups} onUpdateAvatar={handleUpdateAvatar}/>
         <AddPlacePopup isOpen={isAddPlacePopupOpen} onClose={closeAllPopups} onAddPlace={handleAddPlace}/>
         <InfoTooltip name="message" isOpen={isPopupWithoutFormOpen} onClose={closeAllPopups} message={popupMessage} isErrorMsg={isPopupError}/>
