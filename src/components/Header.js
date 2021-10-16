@@ -1,11 +1,10 @@
 import { useContext } from 'react';
 import { CurrentUserContext } from '../contexts/CurrentUserContext';
-import { useHistory, useLocation, Link } from "react-router-dom";
+import { useLocation, Link } from "react-router-dom";
 import logo from '../images/logo.svg';
 
-function Header() {
-  const { currentUser, setCurrentUser } = useContext(CurrentUserContext);
-  const history = useHistory();
+function Header({ handleLogout }) {
+  const { currentUser } = useContext(CurrentUserContext);
   const location = useLocation();
   let navLinkText;
 
@@ -20,15 +19,6 @@ function Header() {
       default:
         return 'other';
     }
-  }
-
-  function handleLogout() {
-    localStorage.removeItem('jwt');
-    setCurrentUser(prev => ({
-      ...prev,
-      isLoggedIn: false
-    }));
-    history.replace('/signin');
   }
 
   return (

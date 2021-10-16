@@ -149,6 +149,16 @@ function App() {
     });
   }
 
+  function handleLogout() {
+    localStorage.removeItem('jwt');
+    setToken('');
+    setCurrentUser(prev => ({
+      ...prev,
+      isLoggedIn: false
+    }));
+    history.replace('/signin');
+  }
+
   function handleMessagePopup(popupMsg, isMsgError) {
     setPopupMessage(popupMsg);
     setPopupError(isMsgError);
@@ -202,12 +212,10 @@ function App() {
   }
 
   useEffect(() => {
-
     if (token) {
       auth.tokenCheck(token).then((res) => {
         if (res.data) {
           getContent(res.data.email);
-          // getCards();
           history.push('/');
         }
       }).catch((err) => console.log(err));
@@ -216,7 +224,7 @@ function App() {
 
   return (
       <CurrentUserContext.Provider value={{ currentUser, setCurrentUser }}>
-        <Header />
+        <Header handleLogout={handleLogout} />
         <Switch>
           <UnprotectedRoute path="/signin">
             <Login handleLogin={handleLogin} />
