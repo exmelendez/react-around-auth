@@ -8,7 +8,8 @@ function EditProfilePopup({handleUpdateUser, isOpen, onClose}) {
   const [description, setDescription] = useState(currentUser.about);
   // const nameInputRef = useRef(name);
   // const descriptionInputRef = useRef(description);
-  // console.log('userContext - EditProfilePopup:', name);
+  console.log('userContext - EditProfilePopup:', currentUser);
+  console.log('userContext name prop - EditProfilePopup:', name);
 
   function handleNameChange(e) {
     setName(e.target.value);

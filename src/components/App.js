@@ -197,6 +197,7 @@ function App() {
   }
 
   function handleUpdateUser(inputValues) {
+    console.log(inputValues);
     api.setUserInfo(inputValues)
     .then(userInfoResponse => {
       console.log('handleUpdate - App - res:', userInfoResponse);
