@@ -201,14 +201,12 @@ function App() {
     api.setUserInfo(inputValues)
     .then(userInfoResponse => {
       console.log('handleUpdate - App - res:', userInfoResponse);
-      /*
       setCurrentUser({
         name: userInfoResponse.name,
         about: userInfoResponse.about,
         avatar: currentUser.avatar
       });
       setEditProfilePopupOpen(false);
-      */
     })
     .catch((err) => console.log(err))
   }
