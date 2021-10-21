@@ -182,33 +182,25 @@ function App() {
 
   function handleUpdateAvatar(avatar) {
     api.setUserAvatar(avatar)
-    .then(response => {
-      setCurrentUser({
-        name: currentUser.name,
-        about: currentUser.about,
-        avatar: response.avatar,
-        email: currentUser.email
-      });
-    })
-    .catch((err) => console.log(err))
-    .finally(() => {
+    .then(res => {
+      setCurrentUser(prev => ({
+        ...prev,
+        avatar: res.avatar
+      }));
       setEditAvatarPopupOpen(false);
-    });
+    })
+    .catch((err) => console.log(err));
   }
 
-  function handleUpdateUser(inputValues) {
-    console.log(inputValues);
-    api.setUserInfo(inputValues)
-    .then(userInfoResponse => {
-      console.log('handleUpdate - App - res:', userInfoResponse);
-      /*
-      setCurrentUser({
-        name: userInfoResponse.name,
-        about: userInfoResponse.about,
-        avatar: currentUser.avatar
-      });
+  function handleUpdateUser(name, about) {
+    api.setUserInfo({name, about})
+    .then(res => {
+      setCurrentUser(prev => ({
+        ...prev,
+        name: res.name,
+        about: res.about
+      }));
       setEditProfilePopupOpen(false);
-      */
     })
     .catch((err) => console.log(err))
   }

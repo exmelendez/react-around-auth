@@ -1,5 +1,5 @@
 import { CurrentUserContext } from '../contexts/CurrentUserContext';
-import { useState, useContext, useRef } from 'react';
+import { useState, useContext, useRef, useEffect } from 'react';
 import PopupWithForm from './PopupWithForm';
 
 function EditAvatarPopup({onUpdateAvatar, isOpen, onClose}) {
@@ -15,6 +15,10 @@ function EditAvatarPopup({onUpdateAvatar, isOpen, onClose}) {
     e.preventDefault();
     onUpdateAvatar({avatar});
   }
+
+  useEffect(() => {
+    setAvatar(currentUser.avatar);
+  }, [currentUser]);
 
   return(
     <PopupWithForm name={"edit-avatar"} title={"Change profile picture"} isOpen={isOpen} onClose={onClose} handleSubmit={handleSubmit}>
