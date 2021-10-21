@@ -192,7 +192,6 @@ function App() {
     .catch((err) => console.log(err));
   }
 
-<<<<<<< HEAD
   function handleUpdateUser(name, about) {
     api.setUserInfo({name, about})
     .then(res => {
@@ -201,18 +200,6 @@ function App() {
         name: res.name,
         about: res.about
       }));
-=======
-  function handleUpdateUser(inputValues) {
-    console.log(inputValues);
-    api.setUserInfo(inputValues)
-    .then(userInfoResponse => {
-      console.log('handleUpdate - App - res:', userInfoResponse);
-      setCurrentUser({
-        name: userInfoResponse.name,
-        about: userInfoResponse.about,
-        avatar: currentUser.avatar
-      });
->>>>>>> c7611c9278cca99f9e06ecc3df1d854a33c69f1c
       setEditProfilePopupOpen(false);
     })
     .catch((err) => console.log(err))
