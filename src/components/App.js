@@ -1,7 +1,6 @@
 import React, {useState, useEffect} from  'react';
 import { Switch, useHistory } from 'react-router-dom';
 import * as api from '../utils/api';
-// import api from '../utils/api';
 import { CurrentUserContext } from '../contexts/CurrentUserContext';
 import Header from './Header.js';
 import Main from './Main.js';
