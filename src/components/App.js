@@ -27,7 +27,7 @@ function App() {
   const [isPopupError, setPopupError] = useState(false);
   const [selectedCard, setSelectedCard] = useState(null);
   const [cards, setCards] = useState([]);
-  const [token, setToken] = useState(localStorage.getItem('jwt'));
+  const [token, setToken] = useState('');
   const history = useHistory();
 
   function closeAllPopups(e) {
@@ -134,12 +134,16 @@ function App() {
       if(res.token){
         localStorage.setItem('jwt', res.token);
         setToken(res.token);
+        handleTokenCheck(res.token);
+        /*
         auth.tokenCheck(res.token)
         .then(data => {
           getContent(data.email);
-          history.push('/');
+          // history.push('/');
         })
+        .then(() => history.push('/'))
         .catch(err => console.log(err));
+        */
       }
     })
     .catch((err) => {
@@ -153,6 +157,11 @@ function App() {
     setToken('');
     setCurrentUser(prev => ({
       ...prev,
+      name: "",
+      about: "",
+      avatar: "",
+      email: "",
+      _id: "",
       isLoggedIn: false
     }));
     history.replace('/signin');
@@ -177,6 +186,15 @@ function App() {
       handleMessagePopup('Oops, something went wrong! Please try again.', true);
       console.log(err)
     });
+  }
+
+  function handleTokenCheck(token) {
+    auth.tokenCheck(token)
+    .then(data => {
+      getContent(data.email);
+    })
+    .then(() => history.push('/'))
+    .catch(err => console.log(err));
   }
 
   function handleUpdateAvatar(avatar) {
@@ -204,26 +222,35 @@ function App() {
     .catch((err) => console.log(err))
   }
 
+  
   useEffect(() => {
-    if (token) {
+    if (localStorage.getItem('jwt')) {
+      // setToken(localStorage.getItem('jwt'));
+      handleTokenCheck(localStorage.getItem('jwt'));
+
+      /*
       auth.tokenCheck(token).then((res) => {
         if (res.data) {
           getContent(res.data.email);
-          history.push('/');
+          // history.push('/');
         }
-      }).catch((err) => console.log(err));
+      })
+      .then(() => history.push('/'))
+      .catch((err) => console.log(err));
+      */
     }
-  }, [history, token]);
+  }, [token]);
+  
 
   return (
       <CurrentUserContext.Provider value={{ currentUser, setCurrentUser }}>
         <Header handleLogout={handleLogout} />
         <Switch>
-          <UnprotectedRoute path="/signin">
-            <Login handleLogin={handleLogin} />
-          </UnprotectedRoute>
           <UnprotectedRoute path="/signup">
            <Register handleSignup={handleSignup} />
+          </UnprotectedRoute>
+          <UnprotectedRoute path="/signin">
+            <Login handleLogin={handleLogin} />
           </UnprotectedRoute>
           <ProtectedRoute path="/">
             <Main onEditProfile={handleEditProfileClick} onAddPlace={handleEditAddPlaceClick} onEditAvatar={handleEditAvatarClick} onCardClick={handleCardClick} cards={cards} onCardLike={handleCardLike} onCardDelete={handleCardDelete}/>

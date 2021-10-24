@@ -1,7 +1,5 @@
 const propLengthCheck = (reqObj) => new Promise((resolve, reject) => {
   const { reqArr, reqBody } = reqObj;
-  console.log('reqObj in propLengthCheck', reqObj);
-  // console.log('reqBody element:', reqBody[reqArr[1]]);
 
   for (let i = 0; i < reqArr.length; i + 1) {
     if (reqBody[reqArr[i]].length < 1) {
@@ -15,7 +13,6 @@ const propLengthCheck = (reqObj) => new Promise((resolve, reject) => {
 });
 
 const propEmptyCheck = (reqObj) => new Promise((resolve, reject) => {
-  // const { name, about } = reqBody;
   const { reqArr, reqBody } = reqObj;
 
   for (let i = 0; i < reqArr.length; i + 1) {
@@ -26,17 +23,7 @@ const propEmptyCheck = (reqObj) => new Promise((resolve, reject) => {
     }
   }
 
-  console.log('propEmptyCheck:', reqObj);
   resolve(reqObj);
-  /*
-  if (name.charAt(0) !== ' ' && about.charAt(0) !== ' ') {
-    resolve(reqBody);
-  } else {
-    const err = new Error('Field contains empty space at beginning');
-    err.name = 'ValidationError';
-    reject(err);
-  }
-  */
 });
 
 const propValidation = (arr, req) => new Promise((resolve, reject) => {
@@ -50,14 +37,6 @@ const propValidation = (arr, req) => new Promise((resolve, reject) => {
       reqBody: reqObj,
     };
 
-    /*
-    for (let i = 0; i < arr.length; i + 1) {
-      // newObj.arr[i] = req.body[arr[i]];
-      console.log(i);
-    }
-    */
-
-    console.log('propValidation:', newObj);
     resolve(newObj);
   } else {
     const err = new Error('Does not contain necessary form properties');
