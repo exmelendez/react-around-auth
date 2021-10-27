@@ -37,39 +37,26 @@ function App() {
     setImagePopupOpen(false);
     setPopupWithoutFormOpen(false);
     setSelectedCard(null);
-    disableEscKey();
-  }, [setEditProfilePopupOpen, setAddPlacePopupOpen, setEditAvatarPopupOpen, setImagePopupOpen, setPopupWithoutFormOpen, disableEscKey]);
+    document.removeEventListener("keyup", handleEscClose);
+  }, [setEditProfilePopupOpen, setAddPlacePopupOpen, setEditAvatarPopupOpen, setImagePopupOpen, setPopupWithoutFormOpen]);
 
+  
   const handleEscClose = useCallback((e) => {
     if (e.key === 'Escape') {
       closeAllPopups();
     }
   }, [closeAllPopups]);
+  
 
-  const disableEscKey = useCallback(() => {
-    document.removeEventListener("keyup", handleEscClose);
-  }, [handleEscClose]);
+  const closeModal = (e) => {
+    if (e.key === 'Escape') {
+      closeAllPopups();
+    }
+  };
 
   function enableEscKey() {
     document.addEventListener("keyup", handleEscClose);
   }
-
-
-
-  /*
-  function closeAllPopups(e) {
-    if (e.target.classList.contains('modal__close-btn') || e.target.classList.contains('modal_is-open') || e.key === "Escape") {
-      setEditProfilePopupOpen(false);
-      setAddPlacePopupOpen(false);
-      setEditAvatarPopupOpen(false);
-      setImagePopupOpen(false);
-      setPopupWithoutFormOpen(false);
-      setSelectedCard(null);
-      disableEscKey();
-    }
-  }
-  */
-  
 
   const getCards = () => {
     api.getCardList()
@@ -132,7 +119,7 @@ function App() {
 
   function handleEditAddPlaceClick() {
     setAddPlacePopupOpen(!isAddPlacePopupOpen);
-    enableEscKey();
+    // enableEscKey();
   }
 
   function handleEditAvatarClick() {
@@ -144,14 +131,6 @@ function App() {
     setEditProfilePopupOpen(!isEditProfilePopupOpen);
     enableEscKey();
   }
-  
-  /*
-  function handleEscClose(e) {
-    if (e.key === 'Escape') {
-      closeAllPopups(e);
-    }
-  }
-  */
 
   function handleLogin(password, email) {
     auth.authorize(password, email)
@@ -262,7 +241,7 @@ function App() {
 
         <EditProfilePopup isOpen={isEditProfilePopupOpen} onClose={closeAllPopups} handleUpdateUser={handleUpdateUser} />
         <EditAvatarPopup isOpen={isEditAvatarPopupOpen} onClose={closeAllPopups} onUpdateAvatar={handleUpdateAvatar}/>
-        <AddPlacePopup isOpen={isAddPlacePopupOpen} onClose={closeAllPopups} onAddPlace={handleAddPlace}/>
+        <AddPlacePopup isOpen={isAddPlacePopupOpen} onClose={closeAllPopups} onAddPlace={handleAddPlace} closeModal={closeModal}/>
         <InfoTooltip name="message" isOpen={isPopupWithoutFormOpen} onClose={closeAllPopups} message={popupMessage} isErrorMsg={isPopupError}/>
 
         {
