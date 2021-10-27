@@ -49,6 +49,7 @@ function App() {
   
 
   const closeModal = (e) => {
+    console.log('closeModal called');
     if (e.key === 'Escape') {
       closeAllPopups();
     }

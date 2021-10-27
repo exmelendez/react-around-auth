@@ -9,7 +9,7 @@ function PopupWithForm({name, isOpen, onClose, title, handleSubmit, closeModal, 
     return () => {
       document.removeEventListener('keyup', closeModal);
     };
-  }, []);
+  }, [closeModal]);
 
   return (
     
