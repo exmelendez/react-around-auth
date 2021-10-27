@@ -30,17 +30,31 @@ function App() {
   const [token, setToken] = useState('');
   const history = useHistory();
 
-  const closeAllPopups = useCallback((e) => {
-    if (e.target.classList.contains('modal__close-btn') || e.target.classList.contains('modal_is-open') || e.key === "Escape") {
-      setEditProfilePopupOpen(false);
-      setAddPlacePopupOpen(false);
-      setEditAvatarPopupOpen(false);
-      setImagePopupOpen(false);
-      setPopupWithoutFormOpen(false);
-      setSelectedCard(null);
-      disableEscKey();
+  const closeAllPopups = useCallback(() => {
+    setEditProfilePopupOpen(false);
+    setAddPlacePopupOpen(false);
+    setEditAvatarPopupOpen(false);
+    setImagePopupOpen(false);
+    setPopupWithoutFormOpen(false);
+    setSelectedCard(null);
+    disableEscKey();
+  }, [setEditProfilePopupOpen, setAddPlacePopupOpen, setEditAvatarPopupOpen, setImagePopupOpen, setPopupWithoutFormOpen, disableEscKey]);
+
+  const handleEscClose = useCallback((e) => {
+    if (e.key === 'Escape') {
+      closeAllPopups();
     }
-  }, [isEditProfilePopupOpen, isAddPlacePopupOpen, isEditAvatarPopupOpen, isImagePopupOpen, isPopupWithoutFormOpen, disableEscKey]);
+  }, [closeAllPopups]);
+
+  const disableEscKey = useCallback(() => {
+    document.removeEventListener("keyup", handleEscClose);
+  }, [handleEscClose]);
+
+  function enableEscKey() {
+    document.addEventListener("keyup", handleEscClose);
+  }
+
+
 
   /*
   function closeAllPopups(e) {
@@ -55,14 +69,7 @@ function App() {
     }
   }
   */
-
-  function disableEscKey() {
-    document.removeEventListener("keyup", handleEscClose);
-  }
-
-  function enableEscKey() {
-    document.addEventListener("keyup", handleEscClose);
-  }
+  
 
   const getCards = () => {
     api.getCardList()
@@ -72,7 +79,7 @@ function App() {
     .catch((err) => console.log(err));
   };
 
-  const getContent = userEmail => {
+  const getContent = useCallback((userEmail) => {
     api.getUserInfo()
       .then(user => {
         setCurrentUser(prev => ({
@@ -87,7 +94,7 @@ function App() {
         getCards();
       })
       .catch((err) => console.log(err));
-  };
+  }, []);
 
   function handleAddPlace(newPlace) {
     api.addCard(newPlace)
@@ -137,12 +144,6 @@ function App() {
     setEditProfilePopupOpen(!isEditProfilePopupOpen);
     enableEscKey();
   }
-
-  const handleEscClose = useCallback((e) => {
-    if (e.key === 'Escape') {
-      closeAllPopups(e);
-    }
-  }, [closeAllPopups]);
   
   /*
   function handleEscClose(e) {
@@ -203,14 +204,14 @@ function App() {
     });
   }
 
-  function handleTokenCheck(token) {
+  const handleTokenCheck = useCallback((token) => {
     auth.tokenCheck(token)
     .then(data => {
       getContent(data.email);
     })
     .then(() => history.push('/'))
     .catch(err => console.log(err));
-  }
+  }, [getContent, history]);
 
   function handleUpdateAvatar(avatar) {
     api.setUserAvatar(avatar)
@@ -241,7 +242,7 @@ function App() {
     if (localStorage.getItem('jwt')) {
       handleTokenCheck(localStorage.getItem('jwt'));
     }
-  }, [token]);
+  }, [handleTokenCheck]);
 
   return (
       <CurrentUserContext.Provider value={{ currentUser, setCurrentUser }}>
