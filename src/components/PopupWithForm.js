@@ -1,15 +1,5 @@
-import { useEffect } from  'react';
-
-function PopupWithForm({name, isOpen, onClose, title, handleSubmit, closeModal, children}) {
+function PopupWithForm({name, isOpen, onClose, title, handleSubmit, children}) {
   const xSymbol = '\u002B';
-
-  useEffect(() => {
-    console.log('popup with form useEffect ran');
-    document.addEventListener('keyup', closeModal);
-    return () => {
-      document.removeEventListener('keyup', closeModal);
-    };
-  }, [closeModal]);
 
   return (
     

@@ -37,26 +37,16 @@ function App() {
     setImagePopupOpen(false);
     setPopupWithoutFormOpen(false);
     setSelectedCard(null);
-    document.removeEventListener("keyup", handleEscClose);
   }, [setEditProfilePopupOpen, setAddPlacePopupOpen, setEditAvatarPopupOpen, setImagePopupOpen, setPopupWithoutFormOpen]);
 
-  
-  const handleEscClose = useCallback((e) => {
-    if (e.key === 'Escape') {
+  const closeModal = useCallback((e) => {
+    if (e.key === 'Escape' || e.target === e.currentTarget) {
       closeAllPopups();
     }
   }, [closeAllPopups]);
-  
-
-  const closeModal = (e) => {
-    console.log('closeModal called');
-    if (e.key === 'Escape') {
-      closeAllPopups();
-    }
-  };
 
   function enableEscKey() {
-    document.addEventListener("keyup", handleEscClose);
+    document.addEventListener("keyup", closeModal);
   }
 
   const getCards = () => {
@@ -118,9 +108,9 @@ function App() {
       .catch((err) => console.log(err));
   }
 
-  function handleEditAddPlaceClick() {
+  function handleAddPlaceClick() {
     setAddPlacePopupOpen(!isAddPlacePopupOpen);
-    // enableEscKey();
+    enableEscKey();
   }
 
   function handleEditAvatarClick() {
@@ -187,6 +177,7 @@ function App() {
   const handleTokenCheck = useCallback((token) => {
     auth.tokenCheck(token)
     .then(data => {
+      setToken(token);
       getContent(data.email);
     })
     .then(() => history.push('/'))
@@ -220,7 +211,8 @@ function App() {
   
   useEffect(() => {
     if (localStorage.getItem('jwt')) {
-      handleTokenCheck(localStorage.getItem('jwt'));
+      const jwt = localStorage.getItem('jwt');
+      handleTokenCheck(jwt);
     }
   }, [handleTokenCheck]);
 
@@ -235,18 +227,18 @@ function App() {
             <Login handleLogin={handleLogin} />
           </UnprotectedRoute>
           <ProtectedRoute path="/">
-            <Main onEditProfile={handleEditProfileClick} onAddPlace={handleEditAddPlaceClick} onEditAvatar={handleEditAvatarClick} onCardClick={handleCardClick} cards={cards} onCardLike={handleCardLike} onCardDelete={handleCardDelete}/>
+            <Main onEditProfile={handleEditProfileClick} onAddPlace={handleAddPlaceClick} onEditAvatar={handleEditAvatarClick} onCardClick={handleCardClick} cards={cards} onCardLike={handleCardLike} onCardDelete={handleCardDelete}/>
           </ProtectedRoute>
         </Switch>
         <Footer />
 
-        <EditProfilePopup isOpen={isEditProfilePopupOpen} onClose={closeAllPopups} handleUpdateUser={handleUpdateUser} />
-        <EditAvatarPopup isOpen={isEditAvatarPopupOpen} onClose={closeAllPopups} onUpdateAvatar={handleUpdateAvatar}/>
-        <AddPlacePopup isOpen={isAddPlacePopupOpen} onClose={closeAllPopups} onAddPlace={handleAddPlace} closeModal={closeModal}/>
+        <EditProfilePopup isOpen={isEditProfilePopupOpen} onClose={closeModal} handleUpdateUser={handleUpdateUser} />
+        <EditAvatarPopup isOpen={isEditAvatarPopupOpen} onClose={closeModal} onUpdateAvatar={handleUpdateAvatar} />
+        <AddPlacePopup isOpen={isAddPlacePopupOpen} onClose={closeModal} onAddPlace={handleAddPlace} />
         <InfoTooltip name="message" isOpen={isPopupWithoutFormOpen} onClose={closeAllPopups} message={popupMessage} isErrorMsg={isPopupError}/>
 
         {
-          isImagePopupOpen ? <ImagePopup card={selectedCard} isOpen={isImagePopupOpen} onClose={closeAllPopups}/> : ""
+          isImagePopupOpen && <ImagePopup card={selectedCard} isOpen={isImagePopupOpen} onClose={closeAllPopups}/>
         }
       </CurrentUserContext.Provider>
   );
