@@ -1,8 +1,10 @@
-import { useState } from 'react';
+// import { useState } from 'react';
 import AuthForm from './AuthForm';
 import AuthRedirect from './AuthRedirect';
 
-function Login({ handleLogin }) {
+function Login({ handleInputChange, handleSubmit, formState }) {
+
+  /*
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
@@ -21,10 +23,11 @@ function Login({ handleLogin }) {
     e.preventDefault();
     handleLogin(password, email);
   }
+  */
 
   return (
     <>
-      <AuthForm title="Log in" formSubmit={handleSubmit} emailChange={handleEmailChange} passwordChange={handlePasswordChange} />
+      <AuthForm formState={formState} handleSubmit={handleSubmit} handleInputChange={handleInputChange} title="Log in" />
       <AuthRedirect routeRedirect="/signup" linkText="Not a member yet? Sign up here!" />
     </>
   );

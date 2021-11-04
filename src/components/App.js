@@ -29,6 +29,18 @@ function App() {
   const [cards, setCards] = useState([]);
   const [token, setToken] = useState('');
   const history = useHistory();
+  const [formState, setFormState] = useState({
+    email: "",
+    password: ""
+  });
+
+  const clearFormState = () => {
+    setFormState(prevState => ({
+      ...prevState,
+      email: "",
+      password: ""
+    }));
+  };
 
   const closeAllPopups = useCallback(() => {
     setEditProfilePopupOpen(false);
@@ -123,13 +135,30 @@ function App() {
     enableEscKey();
   }
 
-  function handleLogin(password, email) {
-    auth.authorize(password, email)
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+
+    setFormState(prevState => ({
+      ...prevState,
+      [name]: value
+    }));
+  };
+
+  function handleLogin(e) {
+    e.preventDefault();
+
+    if(!formState.email || !formState.password) {
+      handleMessagePopup('Make sure to fill in both the email & password field', true);
+      return;
+    }
+
+    auth.authorize(formState.password, formState.email)
     .then((res) => {
       if(res.token){
         localStorage.setItem('jwt', res.token);
         setToken(res.token);
         handleTokenCheck(res.token);
+        clearFormState();
       }
     })
     .catch((err) => {
@@ -160,11 +189,19 @@ function App() {
     enableEscKey();
   }
 
-  function handleSignup(password, email) {
-    auth.register(password, email)
+  function handleSignup(e) {
+    e.preventDefault();
+
+    if(!formState.email || !formState.password) {
+      handleMessagePopup('Make sure to fill in both the email & password field', true);
+      return;
+    }
+
+    auth.register(formState.password, formState.email)
     .then((res) => {
       if(res.data){
         history.push('/signin');
+        clearFormState();
         handleMessagePopup('Success! You have now been registered.', false);
       }
     })
@@ -221,10 +258,10 @@ function App() {
         <Header handleLogout={handleLogout} />
         <Switch>
           <UnprotectedRoute path="/signup">
-           <Register handleSignup={handleSignup} />
+           <Register clearFormState={clearFormState} formState={formState} handleInputChange={handleInputChange} handleSubmit={handleSignup} />
           </UnprotectedRoute>
           <UnprotectedRoute path="/signin">
-            <Login handleLogin={handleLogin} />
+            <Login formState={formState} handleInputChange={handleInputChange} handleSubmit={handleLogin} />
           </UnprotectedRoute>
           <ProtectedRoute path="/">
             <Main onEditProfile={handleEditProfileClick} onAddPlace={handleAddPlaceClick} onEditAvatar={handleEditAvatarClick} onCardClick={handleCardClick} cards={cards} onCardLike={handleCardLike} onCardDelete={handleCardDelete}/>

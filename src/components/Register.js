@@ -1,27 +1,15 @@
-import { useState } from "react";
+import { useEffect } from  'react';
 import AuthForm from "./AuthForm";
 import AuthRedirect from "./AuthRedirect";
 
-function Register({ handleSignup }) {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-
-  function handleEmailChange(e) {
-    setEmail(e.target.value);
-  }
-
-  function handlePasswordChange(e) {
-    setPassword(e.target.value);
-  }
-
-  function handleSubmit(e) {
-    e.preventDefault();
-    handleSignup(password, email);
-  }
+function Register({clearFormState, formState, handleInputChange, handleSubmit }) {
+  useEffect(() => {
+    clearFormState();
+  }, []);
 
   return (
     <>
-      <AuthForm title="Sign up" formSubmit={handleSubmit} emailChange={handleEmailChange} passwordChange={handlePasswordChange} />
+      <AuthForm formState={formState} handleSubmit={handleSubmit} handleInputChange={handleInputChange} title="Sign up" />
       <AuthRedirect routeRedirect="/signin" linkText="Already a member? Log in here!" />
     </>
   );
