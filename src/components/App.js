@@ -34,13 +34,13 @@ function App() {
     password: ""
   });
 
-  const clearFormState = () => {
+  const clearFormState = useCallback(() => {
     setFormState(prevState => ({
       ...prevState,
       email: "",
       password: ""
     }));
-  };
+  }, []);
 
   const closeAllPopups = useCallback(() => {
     setEditProfilePopupOpen(false);
@@ -261,7 +261,7 @@ function App() {
            <Register clearFormState={clearFormState} formState={formState} handleInputChange={handleInputChange} handleSubmit={handleSignup} />
           </UnprotectedRoute>
           <UnprotectedRoute path="/signin">
-            <Login formState={formState} handleInputChange={handleInputChange} handleSubmit={handleLogin} />
+            <Login clearFormState={clearFormState} formState={formState} handleInputChange={handleInputChange} handleSubmit={handleLogin} />
           </UnprotectedRoute>
           <ProtectedRoute path="/">
             <Main onEditProfile={handleEditProfileClick} onAddPlace={handleAddPlaceClick} onEditAvatar={handleEditAvatarClick} onCardClick={handleCardClick} cards={cards} onCardLike={handleCardLike} onCardDelete={handleCardDelete}/>

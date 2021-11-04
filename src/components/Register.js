@@ -5,7 +5,7 @@ import AuthRedirect from "./AuthRedirect";
 function Register({clearFormState, formState, handleInputChange, handleSubmit }) {
   useEffect(() => {
     clearFormState();
-  }, []);
+  }, [clearFormState]);
 
   return (
     <>

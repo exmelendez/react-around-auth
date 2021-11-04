@@ -1,30 +1,12 @@
-// import { useState } from 'react';
+import { useEffect } from 'react';
 import AuthForm from './AuthForm';
 import AuthRedirect from './AuthRedirect';
 
-function Login({ handleInputChange, handleSubmit, formState }) {
-
-  /*
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-
-  function handleEmailChange(e) {
-    setEmail(e.target.value);
-  }
-
-  function handlePasswordChange(e) {
-    setPassword(e.target.value);
-  }
-
-  function handleSubmit(e) {
-    if(!email || !password) {
-      return;
-    }
-    e.preventDefault();
-    handleLogin(password, email);
-  }
-  */
-
+function Login({ clearFormState, formState, handleInputChange, handleSubmit }) {
+  useEffect(() => {
+    clearFormState();
+  }, [clearFormState]);
+  
   return (
     <>
       <AuthForm formState={formState} handleSubmit={handleSubmit} handleInputChange={handleInputChange} title="Log in" />
