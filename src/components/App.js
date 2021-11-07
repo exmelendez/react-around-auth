@@ -33,6 +33,10 @@ function App() {
     email: "",
     password: ""
   });
+  const [updateForm, setUpdateForm] = useState({
+    about: "",
+    name: ""
+  });
 
   const clearFormState = useCallback(() => {
     setFormState(prevState => ({
@@ -125,6 +129,15 @@ function App() {
     enableEscKey();
   }
 
+  const handleAuthInputChange = (e) => {
+    const { name, value } = e.target;
+
+    setFormState(prevState => ({
+      ...prevState,
+      [name]: value
+    }));
+  };
+
   function handleEditAvatarClick() {
     setEditAvatarPopupOpen(!isEditAvatarPopupOpen);
     enableEscKey();
@@ -135,10 +148,10 @@ function App() {
     enableEscKey();
   }
 
-  const handleInputChange = (e) => {
+  const handleFormInputChange = (e) => {
     const { name, value } = e.target;
 
-    setFormState(prevState => ({
+    setUpdateForm(prevState => ({
       ...prevState,
       [name]: value
     }));
@@ -222,7 +235,7 @@ function App() {
   }, [getContent, history]);
 
   function handleUpdateAvatar(avatar) {
-    api.setUserAvatar(avatar)
+    api.setUserAvatar({avatar: avatar})
     .then(res => {
       setCurrentUser(prev => ({
         ...prev,
@@ -233,8 +246,15 @@ function App() {
     .catch((err) => console.log(err));
   }
 
-  function handleUpdateUser(name, about) {
-    api.setUserInfo({name, about})
+  function handleUpdateUser(e) {
+    e.preventDefault();
+
+    if(!updateForm.name || !updateForm.about) {
+      handleMessagePopup('Make sure to fill in all fields', true);
+      return;
+    }
+
+    api.setUserInfo(updateForm)
     .then(res => {
       setCurrentUser(prev => ({
         ...prev,
@@ -258,10 +278,10 @@ function App() {
         <Header handleLogout={handleLogout} />
         <Switch>
           <UnprotectedRoute path="/signup">
-           <Register clearFormState={clearFormState} formState={formState} handleInputChange={handleInputChange} handleSubmit={handleSignup} />
+           <Register clearFormState={clearFormState} formState={formState} handleInputChange={handleAuthInputChange} handleSubmit={handleSignup} />
           </UnprotectedRoute>
           <UnprotectedRoute path="/signin">
-            <Login clearFormState={clearFormState} formState={formState} handleInputChange={handleInputChange} handleSubmit={handleLogin} />
+            <Login clearFormState={clearFormState} formState={formState} handleInputChange={handleAuthInputChange} handleSubmit={handleLogin} />
           </UnprotectedRoute>
           <ProtectedRoute path="/">
             <Main onEditProfile={handleEditProfileClick} onAddPlace={handleAddPlaceClick} onEditAvatar={handleEditAvatarClick} onCardClick={handleCardClick} cards={cards} onCardLike={handleCardLike} onCardDelete={handleCardDelete}/>
@@ -269,7 +289,7 @@ function App() {
         </Switch>
         <Footer />
 
-        <EditProfilePopup isOpen={isEditProfilePopupOpen} onClose={closeModal} handleUpdateUser={handleUpdateUser} />
+        <EditProfilePopup handleInputChange={handleFormInputChange} handleSubmit={handleUpdateUser} isOpen={isEditProfilePopupOpen} onClose={closeModal} />
         <EditAvatarPopup isOpen={isEditAvatarPopupOpen} onClose={closeModal} onUpdateAvatar={handleUpdateAvatar} />
         <AddPlacePopup isOpen={isAddPlacePopupOpen} onClose={closeModal} onAddPlace={handleAddPlace} />
         <InfoTooltip name="message" isOpen={isPopupWithoutFormOpen} onClose={closeAllPopups} message={popupMessage} isErrorMsg={isPopupError}/>
