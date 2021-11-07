@@ -289,7 +289,7 @@ function App() {
         </Switch>
         <Footer />
 
-        <EditProfilePopup handleInputChange={handleFormInputChange} handleSubmit={handleUpdateUser} isOpen={isEditProfilePopupOpen} onClose={closeModal} />
+        <EditProfilePopup handleInputChange={handleFormInputChange} handleSubmit={handleUpdateUser} isOpen={isEditProfilePopupOpen} onClose={closeModal} inputVals={updateForm} inputUpdate={setUpdateForm} />
         <EditAvatarPopup isOpen={isEditAvatarPopupOpen} onClose={closeModal} onUpdateAvatar={handleUpdateAvatar} />
         <AddPlacePopup isOpen={isAddPlacePopupOpen} onClose={closeModal} onAddPlace={handleAddPlace} />
         <InfoTooltip name="message" isOpen={isPopupWithoutFormOpen} onClose={closeAllPopups} message={popupMessage} isErrorMsg={isPopupError}/>
