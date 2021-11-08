@@ -29,7 +29,7 @@ function App() {
   const [isPopupError, setPopupError] = useState(false);
   const [selectedCard, setSelectedCard] = useState(null);
   const [cards, setCards] = useState([]);
-  //REVIEW: Determine how, when and if "token" needed/used
+  //REVIEW: Determine how, when and if "token" needed/used right below this line
   // const [token, setToken] = useState('');
   const history = useHistory();
   const [formState, setFormState] = useState({
