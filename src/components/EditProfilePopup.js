@@ -5,6 +5,13 @@ import PopupWithForm from './PopupWithForm';
 function EditProfilePopup({handleInputChange, handleSubmit, isOpen, onClose, inputVals, inputUpdate}) {
   const { currentUser } = useContext(CurrentUserContext);
 
+  const containerStyle = {
+    isStyled: false,
+    closeBtnClass: "",
+    containerClass: "",
+    submitBtnClass: ""
+  };
+
   useEffect(() => {
     inputUpdate(prevState => ({
       ...prevState,
@@ -15,7 +22,7 @@ function EditProfilePopup({handleInputChange, handleSubmit, isOpen, onClose, inp
   }, [isOpen, inputUpdate, currentUser.about, currentUser.name]);
 
   return (
-    <PopupWithForm btnText="Save" handleSubmit={handleSubmit} isOpen={isOpen} name={"edit-profile"} onClose={onClose} title={"Edit profile"} >
+    <PopupWithForm btnText="Save" containerStyling={containerStyle} handleSubmit={handleSubmit} isOpen={isOpen} name={"edit-profile"} onClose={onClose} title={"Edit profile"} >
       <input id="profile-name" onChange={handleInputChange} className="form__input form__input-profile-name" type="text" name="name" placeholder="Name"
             minLength="2" maxLength="40" value={inputVals.name} required />
       <span id="profile-name-error" className="form__error"></span>

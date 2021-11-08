@@ -3,6 +3,7 @@
 @import './blocks/content/content.css';
 @import './blocks/footer/footer.css';
 @import './blocks/form/form.css';
+@import './blocks/form/_type/form_type_confirm-delete.css';
 @import './blocks/header/header.css';
 @import './blocks/modal/modal.css';
 @import './blocks/modal/_msg-type/modal_msg-type.css';

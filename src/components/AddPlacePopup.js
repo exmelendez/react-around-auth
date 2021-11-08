@@ -5,6 +5,13 @@ function AddPlacePopup({isOpen, onClose, onAddPlace}) {
   const [cardName, setCardName] = useState("");
   const [cardLink, setCardLink] = useState("");
 
+  const containerStyle = {
+    isStyled: false,
+    closeBtnClass: "",
+    containerClass: "",
+    submitBtnClass: ""
+  };
+
   function handleCardLinkAdd(e) {
     setCardLink(e.target.value);
   }
@@ -24,7 +31,7 @@ function AddPlacePopup({isOpen, onClose, onAddPlace}) {
   }
 
   return (
-    <PopupWithForm btnText="Add" handleSubmit={handleSubmit} isOpen={isOpen} name={"add-card"} onClose={onClose} title={"New place"} >
+    <PopupWithForm btnText="Add" containerStyling={containerStyle} handleSubmit={handleSubmit} isOpen={isOpen} name={"add-card"} onClose={onClose} title={"New place"} >
       <input id="card-title" className="form__input form__input_card-title" type="text" name="name" placeholder="Title"
             minLength="1" maxLength="30" value={cardName} onChange={handleCardNameAdd} required />
       <span id="card-title-error" className="form__error"></span>
