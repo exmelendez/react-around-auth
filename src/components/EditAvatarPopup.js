@@ -7,9 +7,9 @@ function EditAvatarPopup({onUpdateAvatar, isOpen, onClose}) {
   const avatarInputRef = useRef(null);
 
   const containerStyle = {
-    isStyled: false,
+    isStyled: true,
     closeBtnClass: "",
-    containerClass: "",
+    containerClass: "modal__container_update-avatar",
     submitBtnClass: ""
   };
 
