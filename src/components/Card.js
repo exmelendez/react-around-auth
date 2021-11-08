@@ -1,3 +1,4 @@
+//TODO: Determine why trash icon and heart icon not displaying
 import { useContext } from  'react';
 import { CurrentUserContext } from '../contexts/CurrentUserContext';
 

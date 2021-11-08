@@ -2,7 +2,6 @@ export const BASE_URL = 'https://register.nomoreparties.co';
 
 const handleResponse = res => {
   if (!res.ok) {
-    // console.log('error response:', res);
     return Promise.reject(`Error: ${res.status}`);
   }
   return res.json();

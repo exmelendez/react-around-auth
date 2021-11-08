@@ -27,7 +27,7 @@ function App() {
   const [isPopupError, setPopupError] = useState(false);
   const [selectedCard, setSelectedCard] = useState(null);
   const [cards, setCards] = useState([]);
-  const [token, setToken] = useState('');
+  const [token, setToken] = useState(''); //TODO: Determine how, when and if "token" needed/used
   const history = useHistory();
   const [formState, setFormState] = useState({
     email: "",
