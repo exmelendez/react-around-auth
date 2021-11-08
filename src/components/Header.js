@@ -23,9 +23,11 @@ function Header({ handleLogout }) {
 
   return (
     <header className="header">
-      <a className="header__logo-link" href="../public/index.html">
+
+      <Link className="header__logo-link" to="/">
         <img className="header__logo" src={logo} alt="Around the US logo" />
-      </a>
+      </Link>
+
       <div className="header__content">
         <p className="header__text-container">
           { currentUser.isLoggedIn && (<span className="header__user-email">{currentUser.email}</span>) }
