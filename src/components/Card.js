@@ -1,11 +1,6 @@
-//TODO: Determine why trash icon and heart icon not displaying
-import { useContext } from  'react';
-import { CurrentUserContext } from '../contexts/CurrentUserContext';
-
-function Card({card, onCardClick, onCardLike, onCardDelete}) {
-  const currentUser = useContext(CurrentUserContext);
-  const isOwn = card.owner._id === currentUser._id;
-  const isLiked = card.likes.some(i => i._id === currentUser._id);
+function Card({card, onCardClick, onCardLike, onCardDelete, userId}) {
+  const isOwn = card.owner._id === userId;
+  const isLiked = card.likes.some(i => i._id === userId);
 
   function handleClick() {
     onCardClick(card);

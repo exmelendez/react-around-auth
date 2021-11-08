@@ -15,13 +15,15 @@ import ProtectedRoute from './ProtectedRoute';
 import UnprotectedRoute from './UnprotectedRoute';
 import InfoTooltip from './InfoTooltip';
 import * as auth from '../utils/auth';
+import RemoveCardPopup from './RemoveCardPopup';
 
 function App() {
-  const [currentUser, setCurrentUser] = useState({ name: "", about: "", avatar: "", email: "", _id: "", isLoggedIn: false });
+  const [currentUser, setCurrentUser] = useState({ name: "", about: "", avatar: "", email: "", _id: "6c1c8237c69449d3ebececeb", isLoggedIn: false });
   const [isEditProfilePopupOpen, setEditProfilePopupOpen] = useState(false);
   const [isAddPlacePopupOpen, setAddPlacePopupOpen] = useState(false);
   const [isEditAvatarPopupOpen, setEditAvatarPopupOpen] = useState(false);
   const [isPopupWithoutFormOpen, setPopupWithoutFormOpen] = useState(false);
+  const [isRemoveCardPopupOpen, setRemoveCardPopupOpen] = useState(false);
   const [isImagePopupOpen, setImagePopupOpen] = useState(false);
   const [popupMessage, setPopupMessage] = useState('');
   const [isPopupError, setPopupError] = useState(false);
@@ -52,6 +54,7 @@ function App() {
     setEditAvatarPopupOpen(false);
     setImagePopupOpen(false);
     setPopupWithoutFormOpen(false);
+    setRemoveCardPopupOpen(false);
     setSelectedCard(null);
   }, [setEditProfilePopupOpen, setAddPlacePopupOpen, setEditAvatarPopupOpen, setImagePopupOpen, setPopupWithoutFormOpen]);
 
@@ -106,12 +109,9 @@ function App() {
   }
 
   function handleCardDelete(card) {
-    api.removeCard(card._id)
-    .then(() => {
-      const updatedCards = cards.filter((c) => c._id !== card._id);
-      setCards(updatedCards);
-    })
-    .catch((err) => console.log(err));
+    setRemoveCardPopupOpen(!isRemoveCardPopupOpen);
+    setSelectedCard(card);
+    enableEscKey();
   }
 
   function handleCardLike(card) {
@@ -265,6 +265,16 @@ function App() {
     })
     .catch((err) => console.log(err))
   }
+
+  function removeCard(card) {
+    api.removeCard(card._id)
+    .then(() => {
+      const updatedCards = cards.filter((c) => c._id !== card._id);
+      setCards(updatedCards);
+      closeAllPopups();
+    })
+    .catch((err) => console.log(err));
+  };
   
   useEffect(() => {
     if (localStorage.getItem('jwt')) {
@@ -289,14 +299,18 @@ function App() {
         </Switch>
         <Footer />
 
-        <EditProfilePopup handleInputChange={handleFormInputChange} handleSubmit={handleUpdateUser} isOpen={isEditProfilePopupOpen} onClose={closeModal} inputVals={updateForm} inputUpdate={setUpdateForm} />
+        <AddPlacePopup isOpen={isAddPlacePopupOpen} onAddPlace={handleAddPlace} onClose={closeModal} />
         <EditAvatarPopup isOpen={isEditAvatarPopupOpen} onClose={closeModal} onUpdateAvatar={handleUpdateAvatar} />
-        <AddPlacePopup isOpen={isAddPlacePopupOpen} onClose={closeModal} onAddPlace={handleAddPlace} />
-        <InfoTooltip name="message" isOpen={isPopupWithoutFormOpen} onClose={closeAllPopups} message={popupMessage} isErrorMsg={isPopupError}/>
-
+        <EditProfilePopup handleInputChange={handleFormInputChange} handleSubmit={handleUpdateUser} inputVals={updateForm} inputUpdate={setUpdateForm} isOpen={isEditProfilePopupOpen} onClose={closeModal} />
+        <InfoTooltip name="message" isOpen={isPopupWithoutFormOpen} onClose={closeModal} message={popupMessage} isErrorMsg={isPopupError}/>
+        
         {
-          isImagePopupOpen && <ImagePopup card={selectedCard} isOpen={isImagePopupOpen} onClose={closeAllPopups}/>
+          isImagePopupOpen && <ImagePopup card={selectedCard} isOpen={isImagePopupOpen} onClose={closeModal}/>
         }
+        {
+          isRemoveCardPopupOpen && <RemoveCardPopup card={selectedCard} isOpen={isRemoveCardPopupOpen} onClose={closeModal} onSubmit={removeCard} />
+        }
+
       </CurrentUserContext.Provider>
   );
 }

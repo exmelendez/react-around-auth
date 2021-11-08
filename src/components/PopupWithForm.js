@@ -1,4 +1,4 @@
-function PopupWithForm({name, isOpen, onClose, title, handleSubmit, children}) {
+function PopupWithForm({btnText, children, handleSubmit, isOpen, name, onClose, title}) {
   const xSymbol = '\u002B';
 
   return (
@@ -11,7 +11,7 @@ function PopupWithForm({name, isOpen, onClose, title, handleSubmit, children}) {
         <form className={`form form_type_${name}`} onSubmit={handleSubmit}>
           {children}
 
-          <button className="form__save-btn" type="submit" aria-label="Submit form">Save</button>
+          <button className="form__save-btn" type="submit" aria-label="Submit form">{btnText}</button>
         </form>
       </div>
     </div>

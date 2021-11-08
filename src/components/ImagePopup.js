@@ -1,6 +1,6 @@
 function ImagePopup({isOpen, onClose, card}) {
   const xSymbol = '\u002B';
-
+  
   return (
     
   <div className={`modal modal_type_image-view ${isOpen ? 'modal_is-open' : ''}`} onClick={onClose}>

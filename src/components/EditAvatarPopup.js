@@ -12,7 +12,7 @@ function EditAvatarPopup({onUpdateAvatar, isOpen, onClose}) {
   }
 
   return(
-    <PopupWithForm name={"edit-avatar"} title={"Change profile picture"} isOpen={isOpen} onClose={onClose} handleSubmit={handleSubmit}>
+    <PopupWithForm btnText="Save" handleSubmit={handleSubmit} isOpen={isOpen} name={"edit-avatar"} onClose={onClose} title={"Change profile picture"} >
       <input id="avatar-url" className="form__input form__input_avatar-update" type="url" name="avatar" placeholder="Link" ref={avatarInputRef} defaultValue={currentUser.avatar} required />
       <span id="avatar-url-error" className="form__error"></span>
     </PopupWithForm>

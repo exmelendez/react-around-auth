@@ -26,7 +26,7 @@ function Main({onEditAvatar, onEditProfile, onAddPlace, cards, onCardClick, onCa
        <ul className="photos__grid">
          {
            cards.map(card => (
-             <Card key={card._id} card={card} onCardClick={onCardClick} onCardLike={onCardLike} onCardDelete={onCardDelete}/>
+             <Card key={card._id} card={card} onCardClick={onCardClick} onCardDelete={onCardDelete} onCardLike={onCardLike} userId={currentUser._id} />
            ))
          }
        </ul>

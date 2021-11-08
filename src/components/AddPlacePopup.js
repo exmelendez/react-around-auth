@@ -24,7 +24,7 @@ function AddPlacePopup({isOpen, onClose, onAddPlace}) {
   }
 
   return (
-    <PopupWithForm name={"add-card"} title={"New place"} isOpen={isOpen} onClose={onClose} handleSubmit={handleSubmit}>
+    <PopupWithForm btnText="Add" handleSubmit={handleSubmit} isOpen={isOpen} name={"add-card"} onClose={onClose} title={"New place"} >
       <input id="card-title" className="form__input form__input_card-title" type="text" name="name" placeholder="Title"
             minLength="1" maxLength="30" value={cardName} onChange={handleCardNameAdd} required />
       <span id="card-title-error" className="form__error"></span>
