@@ -1,9 +1,7 @@
-import { CurrentUserContext } from '../contexts/CurrentUserContext';
-import { useContext, useRef } from 'react';
+import { useRef } from 'react';
 import PopupWithForm from './PopupWithForm';
 
 function EditAvatarPopup({onUpdateAvatar, isOpen, onClose}) {
-  const {currentUser} = useContext(CurrentUserContext);
   const avatarInputRef = useRef(null);
 
   const containerStyle = {

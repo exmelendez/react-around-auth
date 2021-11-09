@@ -59,6 +59,7 @@ function App() {
 
   const closeModal = useCallback((e) => {
     if (e.key === 'Escape' || e.target === e.currentTarget) {
+      document.removeEventListener("keyup", closeModal);
       closeAllPopups();
     }
   }, [closeAllPopups]);
