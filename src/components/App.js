@@ -223,7 +223,7 @@ function App() {
 
   const handleTokenCheck = useCallback((token) => {
     auth.tokenCheck(token)
-    .then(data => {
+    .then(({data}) => {
       getContent(data.email);
     })
     .then(() => history.push('/'))
