@@ -29,8 +29,6 @@ function App() {
   const [isPopupError, setPopupError] = useState(false);
   const [selectedCard, setSelectedCard] = useState(null);
   const [cards, setCards] = useState([]);
-  //REVIEW: Determine how, when and if "token" needed/used right below this line
-  // const [token, setToken] = useState('');
   const history = useHistory();
   const [formState, setFormState] = useState({
     email: "",
@@ -170,7 +168,6 @@ function App() {
     .then((res) => {
       if(res.token){
         localStorage.setItem('jwt', res.token);
-        // setToken(res.token); //TODO: Remove if necessary
         handleTokenCheck(res.token);
         clearFormState();
       }
@@ -183,7 +180,6 @@ function App() {
 
   function handleLogout() {
     localStorage.removeItem('jwt');
-    // setToken(''); //TODO: Remove if necessary
     setCurrentUser(prev => ({
       ...prev,
       name: "",
@@ -228,7 +224,6 @@ function App() {
   const handleTokenCheck = useCallback((token) => {
     auth.tokenCheck(token)
     .then(data => {
-      // setToken(token); //TODO: Remove if necessary
       getContent(data.email);
     })
     .then(() => history.push('/'))
